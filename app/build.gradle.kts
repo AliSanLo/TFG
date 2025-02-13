@@ -1,20 +1,24 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
-    namespace = "com.example.tfg"
-    compileSdk = 34
+    namespace = "com.example.tfgdeverdad"
+    compileSdk = 35
 
     defaultConfig {
-
-        applicationId = "com.example.tfg"
+        applicationId = "com.example.tfgdeverdad"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        //añadido para poder usar el Calendar View debido a que el minSdkVersion es anterior a las 26
+        multiDexEnabled = true
+
     }
 
     buildTypes {
@@ -27,15 +31,33 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        // Enable support for the new language APIs (traducir)
+           isCoreLibraryDesugaringEnabled = true
+
+
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
 dependencies {
+
+implementation(libs.places)
+
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+
+// The view calendar library for Android
+    implementation("com.kizitonwose.calendar:view:2.6.0")
+// The compose calendar library for Android
+    implementation("com.kizitonwose.calendar:compose:2.6.0")
+
+
+
+
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -44,13 +66,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    // Dependencias de prueba
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    //Dependencias de prueba 2
-    implementation("com.prolificinteractive:material-calendarview:2.0.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-
-    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
 }
