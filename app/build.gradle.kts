@@ -53,8 +53,7 @@ implementation(libs.places)
     implementation("com.kizitonwose.calendar:view:2.6.0")
 // The compose calendar library for Android
     implementation("com.kizitonwose.calendar:compose:2.6.0")
-
-
+    implementation("com.google.android.libraries.places:places:4.1.0")  // O la última versión disponible
 
 
 

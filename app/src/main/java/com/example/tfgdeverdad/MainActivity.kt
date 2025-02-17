@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-//Inicialización de las vistas
+//Inicialización de las vis tas
         val calendarView: CalendarView = findViewById(R.id.calendarView)
 
 
