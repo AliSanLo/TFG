@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "993916887110",
+    "project_id": "tfgdeverdad",
+    "storage_bucket": "tfgdeverdad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993916887110:android:93b6d2591aaeab658c6a47",
+        "android_client_info": {
+          "package_name": "com.example.tfgdeverdad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_JLCn_SMx8k_W6N-QNBpVngPEteFndLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
