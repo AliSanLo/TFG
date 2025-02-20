@@ -33,7 +33,7 @@ android {
         }
     }
     compileOptions {
-        // Enable support for the new language APIs (traducir)
+        // Habilitar soporte para las nuevas APIs del lenguaje
            isCoreLibraryDesugaringEnabled = true
 
 
@@ -74,11 +74,19 @@ implementation(libs.places)
         implementation("com.google.firebase:firebase-firestore")
 
 
+        implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
+
+
+
+    // Dependencias estándar de AndroidX y otras
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    // Dependencias para pruebas
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
