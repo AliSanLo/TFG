@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.tfgdeverdad.LoginActivity
 import com.example.tfgdeverdad.R
 
 class MainActivity : AppCompatActivity() {
@@ -24,9 +25,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Acción para "Registrarse"
+        /*
         registerButton.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+
         }
+        */
     }
 }

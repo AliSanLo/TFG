@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LoginActivity"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="211dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/portada" />
+
+    <TextView
+        android:id="@+id/txtInvitation"
+        style="@style/viewCustom"
+        android:padding="0dp"
+        android:text="@string/animo"
+        android:textAlignment="center"
+        android:textColor="@color/quantum_purple200"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etEmail"
+        style="@style/viewCustom"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:paddingTop="10dp"
+        />
+    <EditText
+        android:id="@+id/etPasword"
+        style="@style/viewCustom"
+        android:hint="@string/password"
+        android:inputType="textEmailAddress"
+        android:paddingTop="10dp" />
+    <TextView
+        android:id="@+id/btonLogin"
+        style="@style/viewCustom"
+        android:background="@drawable/rounded_button"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        android:textSize="20sp"
+        android:radius="20dp"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/txtForgotPassword"
+        style="@style/viewCustom"
+        android:paddingTop="0dp"
+        android:gravity="center_horizontal"
+        android:text="@string/forgotPassword"
+        android:textSize="12dp" />
+    <LinearLayout
+        android:id="@+id/Terms"
+        style="@style/viewCustom"
+        android:orientation="horizontal">
+        <CheckBox
+
+            android:id="@+id/cbAcept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acept"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvTerms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/terms"
+            android:textSize="12sp"
+            android:textColor="@color/quantum_purple100"
+            android:layout_marginLeft="5dp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+    <Button
+        android:id="@+id/btSignGoogle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Continuar con Google"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:paddingLeft="30dp"
+        android:drawablePadding="8dp"
+        android:drawableLeft="@drawable/google"
+        android:background="@drawable/button_border"/>
+
+</LinearLayout>

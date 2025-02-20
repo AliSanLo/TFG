@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="forgotPassword">¿Olvidaste tu contraseña?</string>
+    <string name="login">Iniciar Sesion</string>
+    <string name="resetPassweord">Enviar Contraseña</string>
+    <string name="acept">He leido y  acepto los</string>
+    <string name="terms">términos y condiciones</string>
+    <string name="empty_email">Porfavor introduce un email</string>
+    <string name="invalid_email">introduzca correctametne la direccion de correo electrónico</string>
+    <string name="animo">¡Tu futuro yo te agradecerá la planificación de hoy!</string>
+</resources>
