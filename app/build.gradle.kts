@@ -49,32 +49,32 @@ dependencies {
 
 implementation(libs.places)
 
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
 // The view calendar library for Android
-    implementation("com.kizitonwose.calendar:view:2.6.0")
+    implementation("com.kizitonwose.calendar:view:2.6.2")
 // The compose calendar library for Android
-    implementation("com.kizitonwose.calendar:compose:2.6.0")
+    implementation("com.kizitonwose.calendar:compose:2.6.2")
     implementation("com.google.android.libraries.places:places:4.1.0")  // O la última versión disponible
 
         // ...
 
         // Import the Firebase BoM
-        implementation(platform("com.google.firebase:firebase-bom:33.9.0"))
+        implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
 
         // When using the BoM, you don't specify versions in Firebase library dependencies
 
         // Add the dependency for the Firebase SDK for Google Analytics
-        implementation("com.google.firebase:firebase-analytics")
+        implementation("com.google.firebase:firebase-analytics:22.3.0")
 
         // TODO: Add the dependencies for any other Firebase products you want to use
         // See https://firebase.google.com/docs/android/setup#available-libraries
         // For example, add the dependencies for Firebase Authentication and Cloud Firestore
-        implementation("com.google.firebase:firebase-auth")
-        implementation("com.google.firebase:firebase-firestore")
+        implementation("com.google.firebase:firebase-auth:23.2.0")
+        implementation("com.google.firebase:firebase-firestore:25.1.2")
 
 
-        implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
+        implementation ("com.firebaseui:firebase-ui-auth:8.0.2")
 
 
 
