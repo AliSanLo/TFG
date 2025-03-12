@@ -24,6 +24,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent) // Iniciar la nueva actividad
         }
 
+
+
+
         // Acción para "Registrarse"
         /*
         registerButton.setOnClickListener {

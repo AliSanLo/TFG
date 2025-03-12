@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_month)
 
-//Inicialización de las vis tas
+//Inicialización de las vistas
         val calendarView: CalendarView = findViewById(R.id.calendarView)
 
 
@@ -52,10 +52,18 @@ class MainActivity : AppCompatActivity() {
         val daysOfWeek = daysOfWeek()
          calendarView.setup(startMonth, endMonth, daysOfWeek.first())
 
+       /* val titlesContainer = findViewById<ViewGroup>(R.id.titlesContainer)
+        titlesContainer.children*/ //correccion
+
+        // Accedo al contenedor de los días de la semana dentro de titlesContainer
         val titlesContainer = findViewById<ViewGroup>(R.id.titlesContainer)
-        titlesContainer.children
-            .map { it as TextView }
-            .forEachIndexed { index, textView ->
+
+        // Verifico que el contenedor 'daysContainer' esté bien referenciado
+        val actualContainer = titlesContainer?.findViewById<ViewGroup>(R.id.daysContainer)
+
+        // Me aseguro de que 'actualContainer' no sea nulo y filtra los TextViews
+        actualContainer?.children?.filterIsInstance<TextView>() // Asegura que solo seleccionamos TextView
+                ?.forEachIndexed { index, textView ->
                 val dayOfWeek = daysOfWeek[index]
                 val title = dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
                 textView.text = title

@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/daysContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -14,17 +15,11 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <include layout="@layout/calendar_days_name" />
-
         <include layout="@layout/calendar_days_name" />
-
         <include layout="@layout/calendar_days_name" />
-
         <include layout="@layout/calendar_days_name" />
-
         <include layout="@layout/calendar_days_name" />
-
         <include layout="@layout/calendar_days_name" />
-
         <include layout="@layout/calendar_days_name" />
 
     </LinearLayout>
