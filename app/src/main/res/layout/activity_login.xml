@@ -34,7 +34,7 @@ android:id="@+id/main"
         android:paddingTop="10dp"
         />
     <EditText
-        android:id="@+id/etPasword"
+        android:id="@+id/etPassword"
         style="@style/viewCustom"
         android:hint="@string/password"
         android:inputType="textEmailAddress"
@@ -51,7 +51,7 @@ android:id="@+id/main"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textStyle="bold"
-        />
+        android:onClick="login"/>
     <TextView
         android:id="@+id/txtForgotPassword"
         style="@style/viewCustom"
@@ -60,7 +60,7 @@ android:id="@+id/main"
         android:text="@string/forgotPassword"
         android:textSize="12dp" />
     <LinearLayout
-        android:id="@+id/Terms"
+        android:id="@+id/lyTerms"
         style="@style/viewCustom"
         android:orientation="horizontal">
         <CheckBox

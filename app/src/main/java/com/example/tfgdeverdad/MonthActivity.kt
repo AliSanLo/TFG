@@ -7,7 +7,8 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import com.kizitonwose.calendar.core.CalendarDay
+import com.kizitonwose.calendar
+    .core.CalendarDay
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import com.kizitonwose.calendar.view.CalendarView

@@ -67,6 +67,7 @@ implementation(libs.places)
         // Add the dependency for the Firebase SDK for Google Analytics
         implementation("com.google.firebase:firebase-analytics:22.3.0")
 
+
         // TODO: Add the dependencies for any other Firebase products you want to use
         // See https://firebase.google.com/docs/android/setup#available-libraries
         // For example, add the dependencies for Firebase Authentication and Cloud Firestore
@@ -90,4 +91,25 @@ implementation(libs.places)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+
+    //libreria de firebase  para el inicio de sesion
+    implementation ("com.google.firebase:firebase-auth:23.2.0")
+    //librerias que nos permiten manejar la base de datos
+    implementation ("com.google.firebase:firebase-database:21.0.0")
+    implementation ("com.google.firebase:firebase-firestore:25.1.3")
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

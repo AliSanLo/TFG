@@ -5,6 +5,10 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/black</item>
+
+        //quita la barra de arriba con el titulo de la apicacion
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 

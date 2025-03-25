@@ -11,19 +11,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TFGDEVERDAD">   <!-- tools:targetApi="31"-->
-   <activity
-       android:name="com.example.tfgdeverdad.LoginActivity"
-       android:exported="true" />
-   <activity
-       android:name="com.example.tfgdeverdad.MainActivity"
-       android:exported="true">
-       <intent-filter>
-           <action android:name="android.intent.action.MAIN" />
+        android:theme="@style/Theme.TFGDEVERDAD">
 
-           <category android:name="android.intent.category.LAUNCHER" />
-       </intent-filter>
-   </activity>
-</application>
+        <!-- Ahora LoginActivity es la pantalla de inicio -->
+        <activity
+            android:name="com.example.tfgdeverdad.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
+        <activity
+            android:name="com.example.tfgdeverdad.MainActivity"
+            android:exported="true"/>
+    </application>
 </manifest>
