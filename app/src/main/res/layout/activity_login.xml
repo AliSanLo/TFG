@@ -58,7 +58,8 @@ android:id="@+id/main"
         android:paddingTop="0dp"
         android:gravity="center_horizontal"
         android:text="@string/forgotPassword"
-        android:textSize="12dp" />
+        android:textSize="12dp"
+        android:onClick="forgotPassword"/>
     <LinearLayout
         android:id="@+id/lyTerms"
         style="@style/viewCustom"

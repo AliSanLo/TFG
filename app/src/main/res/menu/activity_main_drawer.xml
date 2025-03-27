@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/nav_item_main"
+            android:icon="@drawable/perfil"
+            android:title="@string/perfil"/>
+        <item android:id="@+id/signOut"
+            android:icon="@drawable/cerrar_sesion"
+            android:title="@string/signOut"/>
+    </group>
+
+</menu>
