@@ -47,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
         etPassword = findViewById(R.id.etPassword)
         mAuth = FirebaseAuth.getInstance()
 
-        mAuth.signOut() // Cierra sesión al iniciar la actividad
+       // mAuth.signOut() // Cierra sesión al iniciar la actividad
 
     }
 

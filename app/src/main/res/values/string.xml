@@ -28,5 +28,6 @@
 
     <string name="perfil">Perfil</string>
     <string name="signOut">Cerrar Sesión</string>
+    <string name="empty"></string>
 
 </resources>

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -10,7 +11,9 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/bar_title"
+            android:id="@+id/toolbar_main"
+            app:title=" "
+            android:background="@color/fondo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"/>
     
