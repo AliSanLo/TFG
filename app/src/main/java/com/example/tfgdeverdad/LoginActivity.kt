@@ -25,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
         lateinit var useremail: String
         lateinit var providerSession: String
     }
+    private var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private var email by Delegates.notNull<String>() // Deelgates.notNull se asegura de que String no sea null
     private var password by Delegates.notNull<String>()
@@ -32,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var etPassword: EditText
     private lateinit var lyTerms: LinearLayout //por los terminos y condiciones
 
-    private lateinit var mAuth: FirebaseAuth //para la autentificaciond el usuario
+    //private lateinit var mAuth: FirebaseAuth //para la autentificaciond el usuario
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,9 +46,8 @@ class LoginActivity : AppCompatActivity() {
 
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
-        mAuth = FirebaseAuth.getInstance()
-
        // mAuth.signOut() // Cierra sesión al iniciar la actividad
+        //Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show() // <-- Prueba si se ejecuta
 
     }
 
@@ -140,6 +140,7 @@ class LoginActivity : AppCompatActivity() {
     fun forgotPassword(view: View) {
         resetPassword()
     }
+
 
     private fun resetPassword() {
         var e = etEmail.text.toString()

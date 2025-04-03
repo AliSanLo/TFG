@@ -7,6 +7,7 @@
     android:id="@+id/drawer_layout"
     tools:openDrawer="start"
     >
+
     <!-- incluimos la layout del menu-->
     <include
         layout="@layout/app_bar_main"
@@ -20,6 +21,7 @@
         android:layout_gravity="start"
         app:menu="@menu/activity_main_drawer"/>
     <!-- Contenedor de los nombres de los días -->
+
     <include
         android:id="@+id/titlesContainer"
         layout="@layout/calendar_days_name_container" />
@@ -29,6 +31,8 @@
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cv_dayViewResource="@layout/calendar_day" />
+        app:cv_dayViewResource="@layout/calendar_day"
+        app:cv_daySize="seventhWidth"
+        app:cv_outDateStyle="endOfGrid"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

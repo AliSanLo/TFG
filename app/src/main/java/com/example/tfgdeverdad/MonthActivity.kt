@@ -1,6 +1,7 @@
 package com.example.tfgdeverdad
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.kizitonwose.calendar.core.CalendarDay
+import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import com.kizitonwose.calendar.view.CalendarView
@@ -100,7 +102,13 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
             // Called every time we need to reuse a container.
             override fun bind(container: DayViewContainer, data: com.kizitonwose.calendar.core.CalendarDay) {
                 container.textView.text = data.date.dayOfMonth.toString()
+                if (data.position == DayPosition.MonthDate) {
+                    container.textView.setTextColor(Color.DKGRAY)
+                } else {
+                    container.textView.setTextColor(Color.GRAY)
+                }
             }
+
         }
 
 
