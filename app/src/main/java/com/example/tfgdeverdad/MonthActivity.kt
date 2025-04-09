@@ -8,7 +8,10 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -35,10 +38,22 @@ class DayViewContainer(view: View) : ViewContainer(view) {
     // Encuentra el TextView dentro de la vista
     val textView: TextView = requireNotNull(view.findViewById(R.id.calendarDayText)) {
     }
+    lateinit var day: CalendarDay
 
-    // Alternativa con ViewBinding:
-    // val textView = CalendarDayLayoutBinding.bind(view).calendarDayText
+    init {
+        view.setOnClickListener {
+            // Cambiar el color de fondo de la celda seleccionada
+            view.setBackgroundColor(Color.LTGRAY) // Cambiar el color de fondo al seleccionar el día.
 
+
+            // Actualizar la variable selectedDate con el día seleccionado
+            val activity = view.context as MainActivity
+            activity.selectedDate = day  // Actualizamos selectedDate en la actividad
+        }
+        // Alternativa con ViewBinding:
+        // val textView = CalendarDayLayoutBinding.bind(view).calendarDayText
+    }
+    //var onDayClick: ((CalendarDay) -> Unit)? = null
 
 }
 
@@ -46,6 +61,8 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
+    var selectedDate: CalendarDay? = null  //  guarda la fecha seleccionada
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,17 +74,23 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         initNavigationView()
 
 
-
 //Inicialización de las vistas
         val calendarView: CalendarView = findViewById(R.id.calendarView)
 
 
 //para la vista mensual
         val currentMonth = YearMonth.now() //devuelve el mes y año actuales, sin incluir el día.
-        val startMonth = currentMonth.minusMonths(24) //Mi calendario comienza 24 meses atrás, es decir, a fecha de hoy en febrero de 2023
-        val endMonth = currentMonth.plusMonths(60) // Mi calendario incluirá los 60 meses posteriores a fecha de hoy, es decir, febrero de 2030
-        val firstDayOfWeek = firstDayOfWeekFromLocale() // Establece el primer día de la semana segun la configuracion regional del dispositivo.
-        calendarView.setup(startMonth, endMonth, firstDayOfWeek) //inicializa el CalendarView según lo establecido
+        val startMonth =
+            currentMonth.minusMonths(24) //Mi calendario comienza 24 meses atrás, es decir, a fecha de hoy en febrero de 2023
+        val endMonth =
+            currentMonth.plusMonths(60) // Mi calendario incluirá los 60 meses posteriores a fecha de hoy, es decir, febrero de 2030
+        val firstDayOfWeek =
+            firstDayOfWeekFromLocale() // Establece el primer día de la semana segun la configuracion regional del dispositivo.
+        calendarView.setup(
+            startMonth,
+            endMonth,
+            firstDayOfWeek
+        ) //inicializa el CalendarView según lo establecido
         calendarView.scrollToMonth(currentMonth) //para que muestre por defecto el mes actual.
 
 //para generar los dias de la semana
@@ -92,21 +115,33 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
             }
 
 
-
-
         // Aquí se configura el dayBinder del CalendarView (explico el dayBinder en una linea?)
         calendarView.dayBinder = object : MonthDayBinder<DayViewContainer> {
-            // Called only when a new container is needed.
+            // Se llama solo cuando un nuevo container es necesario
             override fun create(view: View) = DayViewContainer(view)
 
-            // Called every time we need to reuse a container.
-            override fun bind(container: DayViewContainer, data: com.kizitonwose.calendar.core.CalendarDay) {
+            // Se llama cada vez que queremos reutilizar un container
+            override fun bind(
+                container: DayViewContainer,
+                data: com.kizitonwose.calendar.core.CalendarDay
+            ) {
                 container.textView.text = data.date.dayOfMonth.toString()
                 if (data.position == DayPosition.MonthDate) {
                     container.textView.setTextColor(Color.DKGRAY)
+                    // Aquí cambia el fondo si es el día seleccionado
+                    if (data == selectedDate) {
+                        container.textView.setBackgroundColor(Color.parseColor("#FFBB86FC")) // morado bonito
+                        container.textView.setTextColor(Color.WHITE)
+                    } else {
+                        container.textView.setBackgroundColor(Color.TRANSPARENT)
+                    }
                 } else {
                     container.textView.setTextColor(Color.GRAY)
                 }
+                // Set the calendar day for this container.
+                container.day = data
+                // Set the date text
+                container.textView.text = data.date.dayOfMonth.toString()
             }
 
         }
@@ -134,30 +169,36 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
 
     //Quitar la siguiente funcion si no hago cabecera de menu
-    private fun initNavigationView(){
-        var navigationView: NavigationView= findViewById(R.id.nav_view) //conectamos con el laytout correspondiente por el id
-        navigationView.setNavigationItemSelectedListener ( this ) //para reconocer cuando se está haciendo click en un elemento del menu y generar acciones
+    private fun initNavigationView() {
+        var navigationView: NavigationView =
+            findViewById(R.id.nav_view) //conectamos con el laytout correspondiente por el id
+        navigationView.setNavigationItemSelectedListener(this) //para reconocer cuando se está haciendo click en un elemento del menu y generar acciones
 
-        var headerView: View= LayoutInflater.from(this).inflate(R.layout.nav_header_main, navigationView, false )//cada vez que el usuario entre y salga
+        var headerView: View = LayoutInflater.from(this).inflate(
+            R.layout.nav_header_main,
+            navigationView,
+            false
+        )//cada vez que el usuario entre y salga
         //se borra el header y vuelve a ponerse con los datos cargados para que esté siempre actualizado cada vez que abrimos y cerramos
         navigationView.removeHeaderView(headerView)
         navigationView.addHeaderView(headerView)
 
     }
 
-    fun callSignOut(view : View){
+    fun callSignOut(view: View) {
         signOut()
     }
-    private fun signOut(){
+
+    private fun signOut() {
         FirebaseAuth.getInstance().signOut()
-        startActivity(Intent(this, LoginActivity::class.java ))
+        startActivity(Intent(this, LoginActivity::class.java))
         finish()
         Log.d("MainActivity", "Cierre de sesión iniciado")
 
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.nav_item_signOut -> signOut()
 
         }
