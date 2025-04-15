@@ -28,6 +28,7 @@ import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import com.kizitonwose.calendar.view.CalendarView
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.ViewContainer
+import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
@@ -42,13 +43,36 @@ class DayViewContainer(view: View) : ViewContainer(view) {
 
     init {
         view.setOnClickListener {
-            // Cambiar el color de fondo de la celda seleccionada
-            view.setBackgroundColor(Color.LTGRAY) // Cambiar el color de fondo al seleccionar el día.
 
-
-            // Actualizar la variable selectedDate con el día seleccionado
             val activity = view.context as MainActivity
-            activity.selectedDate = day  // Actualizamos selectedDate en la actividad
+
+            val oldDate = activity.selectedDate
+            val newDate = day
+
+            // Si ya había una fecha seleccionada, refrescamos esa celda
+            if (oldDate != null && oldDate != newDate) {
+                activity.findViewById<CalendarView>(R.id.calendarView).notifyDayChanged(oldDate)
+            }
+
+            // Actualizamos la fecha seleccionada
+            if (oldDate == newDate) {
+                // Si haces clic sobre la misma, la deseleccionamos (opcional)
+                activity.selectedDate = null
+            } else {
+                activity.selectedDate = newDate
+            }
+            // Mostrar u ocultar el botón de añadir evento
+            if (activity.selectedDate != null) {
+                activity.addButton.visibility = View.VISIBLE
+            } else {
+                activity.addButton.visibility = View.GONE
+
+            }
+
+
+            // Refrescamos la nueva celda
+            activity.findViewById<CalendarView>(R.id.calendarView).notifyDayChanged(newDate)
+
         }
         // Alternativa con ViewBinding:
         // val textView = CalendarDayLayoutBinding.bind(view).calendarDayText
@@ -63,6 +87,11 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
     private lateinit var toggle: ActionBarDrawerToggle
     var selectedDate: CalendarDay? = null  //  guarda la fecha seleccionada
 
+    val selectedDates = mutableSetOf<LocalDate>()
+    lateinit var addButton: ImageView
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +101,10 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         //iniciar menu
         initToolBar()
         initNavigationView()
+
+//Iniciar boton aniadir evento
+        addButton = findViewById(R.id.addButton)
+        addButton.visibility = View.GONE // Oculto al inicio
 
 
 //Inicialización de las vistas
@@ -121,27 +154,25 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
             override fun create(view: View) = DayViewContainer(view)
 
             // Se llama cada vez que queremos reutilizar un container
-            override fun bind(
-                container: DayViewContainer,
-                data: com.kizitonwose.calendar.core.CalendarDay
-            ) {
+            override fun bind(container: DayViewContainer, data: com.kizitonwose.calendar.core.CalendarDay) {
+
                 container.textView.text = data.date.dayOfMonth.toString()
+                container.day = data
+
                 if (data.position == DayPosition.MonthDate) {
                     container.textView.setTextColor(Color.DKGRAY)
-                    // Aquí cambia el fondo si es el día seleccionado
-                    if (data == selectedDate) {
-                        container.textView.setBackgroundColor(Color.parseColor("#FFBB86FC")) // morado bonito
-                        container.textView.setTextColor(Color.WHITE)
+
+                    val activity = container.view.context as MainActivity
+                    if (activity.selectedDate == data) {
+                        container.textView.setBackgroundColor(Color.LTGRAY)
                     } else {
                         container.textView.setBackgroundColor(Color.TRANSPARENT)
                     }
+
                 } else {
                     container.textView.setTextColor(Color.GRAY)
+                    container.textView.setBackgroundColor(Color.TRANSPARENT)
                 }
-                // Set the calendar day for this container.
-                container.day = data
-                // Set the date text
-                container.textView.text = data.date.dayOfMonth.toString()
             }
 
         }
