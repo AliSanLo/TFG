@@ -106,6 +106,12 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         addButton = findViewById(R.id.addButton)
         addButton.visibility = View.GONE // Oculto al inicio
 
+        addButton.setOnClickListener {
+            val intent = Intent(this, AddEventActivity::class.java)
+            startActivity(intent)
+        }
+
+
 
 //Inicialización de las vistas
         val calendarView: CalendarView = findViewById(R.id.calendarView)
@@ -176,8 +182,6 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
             }
 
         }
-
-
 
     }
 
