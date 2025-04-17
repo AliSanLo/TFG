@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
 
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
-       // mAuth.signOut() // Cierra sesión al iniciar la actividad
+       //mAuth.signOut() // Cierra sesión al iniciar la actividad
         //Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show() // <-- Prueba si se ejecuta
 
     }
