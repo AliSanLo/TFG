@@ -23,7 +23,8 @@
   3. Configura Firebase
   4. Ejecuta la aplicaion en un emulador o un dispositivo físico.
  
-     O también puedes descargarte el archivo TFG_Alicia.apk y ejecutarlo en tu emulador o dispositivo android.
+     O también puedes descargarte el archivo TFG_Alicia.apk y ejecutarlo en tu emulador o dispositivo android. Podras encontrarlo en la siguiente carpeta:
+     📂 TFG ├── 📂 app ├── 📂build ├── 📂output ├── 📂apk ├── 📂apk └── 📄TFG_Alicia.apk
 
 
 Gracias por leer y valorar mi trabajo :)
