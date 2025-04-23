@@ -1,6 +1,6 @@
   Bienvenidos a mi proyecto de Fin de Grado para el Grado Superior de Desarrollo de Aplicaciones Multiplataforma en la Universidad Alfonso X El Sabio. 
 
-  A continuación expondré mi trabajo en rasgos generales para una mayor comprensión del código si te animas a echar un ojo a mi trabajo.
+  A continuación expondré mi trabajo en rasgos generales para una mayor comprensión del código si te animas a echar un ojo por aquí.
 
   ## Funciones principales de la aplicación: 
 -   ✅ Registro y log in con Firebase Authentication
