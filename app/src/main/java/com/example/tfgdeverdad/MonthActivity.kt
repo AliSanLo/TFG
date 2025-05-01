@@ -20,7 +20,10 @@ import androidx.core.view.children
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.daysOfWeek
@@ -37,17 +40,20 @@ import java.util.Locale
 // Clase DayViewContainer que actúa como contenedor para cada celda de día en el calendario
 class DayViewContainer(view: View) : ViewContainer(view) {
     // Encuentra el TextView dentro de la vista
-    val textView: TextView = requireNotNull(view.findViewById(R.id.calendarDayText)) {
-    }
+    val textView: TextView = requireNotNull(view.findViewById(R.id.calendarDayText))
+    val eventTextView: TextView = requireNotNull(view.findViewById(R.id.eventTextView))
+    val eventStickerTextView: TextView = TextView(view.context)
+
     lateinit var day: CalendarDay
 
     init {
+
         view.setOnClickListener {
 
             val activity = view.context as MainActivity
-
             val oldDate = activity.selectedDate
             val newDate = day
+            val eventTextView: TextView = requireNotNull(view.findViewById(R.id.eventTextView))
 
             // Si ya había una fecha seleccionada, refrescamos esa celda
             if (oldDate != null && oldDate != newDate) {
@@ -56,7 +62,7 @@ class DayViewContainer(view: View) : ViewContainer(view) {
 
             // Actualizamos la fecha seleccionada
             if (oldDate == newDate) {
-                // Si haces clic sobre la misma, la deseleccionamos (opcional)
+                // Si haces clic sobre la misma, la deseleccionamos
                 activity.selectedDate = null
             } else {
                 activity.selectedDate = newDate
@@ -69,15 +75,17 @@ class DayViewContainer(view: View) : ViewContainer(view) {
 
             }
 
-
             // Refrescamos la nueva celda
             activity.findViewById<CalendarView>(R.id.calendarView).notifyDayChanged(newDate)
 
         }
-        // Alternativa con ViewBinding:
-        // val textView = CalendarDayLayoutBinding.bind(view).calendarDayText
+        // Seteo de sticker como texto
+        eventStickerTextView.setTextColor(Color.RED)  // Cambia el color del sticker
+        eventStickerTextView.textSize = 14f  // Puedes ajustar el tamaño del sticker
+        (view as ViewGroup).addView(eventStickerTextView)
     }
     //var onDayClick: ((CalendarDay) -> Unit)? = null
+
 
 }
 
@@ -91,6 +99,18 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
     lateinit var addButton: ImageView
 
 
+    //Personalizamos la clase Event para poder transformar los datos de Firebase y mostrarlos en el calendario
+    data class Event(
+        val titulo: String = "",
+        val fechaInicio: Timestamp? = null,
+        val fechaFin: Timestamp? = null,
+        val horaInicio: String = "",
+        val horaFin: String = "",
+        val notas: String = "",
+        val sticker: String = ""
+        )
+
+    val eventsMap = mutableMapOf<LocalDate, MutableList<Event>>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -154,11 +174,44 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
             }
 
 
+        val db = FirebaseFirestore.getInstance()
+        db.collection("eventos")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val evento = document.toObject(Event::class.java)
+                    val fechaInicioTimestamp: Timestamp? = evento.fechaInicio
+                    // Convierte Timestamp a LocalDate
+                    val fechaInicio: LocalDate? = fechaInicioTimestamp?.toDate()?.toInstant()?.atZone(java.time.ZoneId.systemDefault())?.toLocalDate()
+
+                    // Verificamos si fechaInicio no es null
+                    if (fechaInicio != null) {
+                        // Confirmamos si existe una lista de eventos en el mapa para esa fecha
+                        if (!eventsMap.containsKey(fechaInicio)) {
+                            // Si no existe, se crea una nueva lista para esa fecha
+                            eventsMap[fechaInicio] = mutableListOf()
+                        }
+                        // Agregamos el evento a la lista correspondiente a esa fecha
+                        eventsMap[fechaInicio]?.add(evento)
+                    } else {
+                        Log.w("MainActivity", "fechaInicio es null para el evento ${evento.titulo}")
+                    }
+                }
+
+                // Una vez cargados los eventos, notificamos al calendario para que se redibuje
+                findViewById<CalendarView>(R.id.calendarView).notifyCalendarChanged()
+            }
+            .addOnFailureListener { e ->
+                Log.e("MainActivity", "Error cargando eventos", e)
+            }
+
+
+
+
         // Aquí se configura el dayBinder del CalendarView (explico el dayBinder en una linea?)
         calendarView.dayBinder = object : MonthDayBinder<DayViewContainer> {
             // Se llama solo cuando un nuevo container es necesario
             override fun create(view: View) = DayViewContainer(view)
-
             // Se llama cada vez que queremos reutilizar un container
             override fun bind(container: DayViewContainer, data: com.kizitonwose.calendar.core.CalendarDay) {
 
@@ -179,9 +232,27 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
                     container.textView.setTextColor(Color.GRAY)
                     container.textView.setBackgroundColor(Color.TRANSPARENT)
                 }
+                // Buscar los eventos del día
+                val events = eventsMap[data.date] ?: emptyList()
+
+                // Si hay eventos, mostramos la hora y el sticker
+                if (events.isNotEmpty()) {
+                    val event = events.first()  // Obtén el primer evento (o el que desees)
+                    container.eventTextView.text = "${event.horaInicio}"  // Muestra la hora
+                    container.eventStickerTextView.text = event.sticker  // Muestra el sticker
+                    container.eventTextView.visibility = View.VISIBLE
+                    container.eventStickerTextView.visibility = View.VISIBLE
+
+                    // Aquí podrías agregar lógica para manejar más de un evento
+                } else {
+                    container.eventTextView.visibility = View.GONE
+                    container.eventStickerTextView.visibility = View.GONE
+                }
+
             }
 
         }
+
 
     }
 

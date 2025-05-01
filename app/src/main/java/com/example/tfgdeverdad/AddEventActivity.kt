@@ -1,11 +1,13 @@
 package com.example.tfgdeverdad
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,9 +28,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
+import java.util.Locale
 
 class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -46,47 +50,45 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         initToolBar()
         initNavigationView()
 
+
+
         val tituloEvento = findViewById<EditText>(R.id.TituloEvento)
         val etFechaStart = findViewById<EditText>(R.id.StartDate)
         val etFechaEnd = findViewById<EditText>(R.id.EndDate)
         val editTextHoraInic = findViewById<EditText>(R.id.HoraInic)
         val editTextHoraFin = findViewById<EditText>(R.id.HoraFin)
         val notasAdic = findViewById<EditText>(R.id.Notas)
-        val stickerSelector = findViewById<MaterialAutoCompleteTextView>(R.id.stickerSelector)
+        val stickerSelector = findViewById<TextView>(R.id.stickerSelector)
 
         //Stickers
         val stickers = listOf(
-            "🎉 Fiesta",
-            "🐱 Gato",
-            "🔥 Fuego",
-            "🌟 Estrella",
-            "📚 Estudio",
-            "💻 Código",
-            "🧠 Focus",
-            "🎮 Break",
-            "📝 Tareas"
+            "🎉 ",
+            "🐱 ",
+            "🔥 ",
+            "🌟 ",
+            "📚 ",
+            "💻 ",
+            "🧠 ",
+            "🎮 ",
+            "📝 "
         )
 
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, stickers)
-        stickerSelector.setAdapter(adapter)
-        val stickerElegido = stickerSelector.text.toString()
 
-        //Guardar eventos en Firebase
-        val evento = hashMapOf(
-            "titulo" to tituloEvento.text.toString(),
-            "fechaInicio" to etFechaStart.text.toString(),
-            "fechaFin" to etFechaEnd.text.toString(),
-            "horaInicio" to editTextHoraInic.text.toString(),
-            "horaFin" to editTextHoraFin.text.toString(),
-            "notas" to notasAdic.text.toString(),
-            "sticker" to stickerSelector.text.toString()
-        )
+// Al hacer clic en el TextView de sticker, se abre el AlertDialog
+        stickerSelector.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Selecciona un Sticker")
 
-        FirebaseFirestore.getInstance().collection("eventos")
-            .add(evento)
-            .addOnSuccessListener { doc -> Log.d("Firebase", "Evento guardado: ${doc.id}") }
-            .addOnFailureListener { e -> Log.e("Firebase", "Error: ", e) }
+            // Usamos un ArrayAdapter para crear una lista de stickers
+            builder.setItems(stickers.toTypedArray()) { _, which ->
+                val selectedSticker = stickers[which]
+                stickerSelector.text =
+                    selectedSticker  // Actualizamos el TextView con el sticker seleccionado
+            }
 
+            val dialog = builder.create()
+            dialog.show()
+        }
 
         //Título de la pagina
         val titulo = findViewById<TextView>(R.id.titulo1)
@@ -179,6 +181,7 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val btnGuardar = findViewById<Button>(R.id.GuardarEvento)
         btnGuardar.setOnClickListener {
             guardarEvento()
+
         }
     }
 
@@ -237,6 +240,8 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     private fun guardarEvento() {
+
+
         val titulo = findViewById<EditText>(R.id.TituloEvento).text.toString().trim()
         val fechaInicio = findViewById<EditText>(R.id.StartDate).text.toString().trim()
         val fechaFin = findViewById<EditText>(R.id.EndDate).text.toString().trim()
@@ -250,28 +255,50 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             Toast.makeText(this, "Por favor, completa los campos obligatorios", Toast.LENGTH_SHORT).show()
             return
         }
+        // Transformamos la fecha para que sea parseable en el calendario (yyyy-MM-dd)
+        val inputFormat = java.text.SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val outputFormat = java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
+        // Convertir la fecha de inicio de String a Date
+        val fechaInicioDate = inputFormat.parse(fechaInicio)
+        // Convertimos la fecha de inicio a Timestamp
+        val fechaInicioTimestamp = fechaInicioDate?.let { Timestamp(it) }
+
+        // Aquí procesamos la fecha de fin si está presente
+        val fechaFinTimestamp = if (fechaFin.isNotEmpty()) {
+            val fechaFinDate = inputFormat.parse(fechaFin)
+            fechaFinDate?.let { Timestamp(it) } // se convierte a Timestamp
+        } else {
+            null // Si no se registra fecha de fin, queda el valor como null
+        }
+
+
+
+        // Creamos el objeto evento
         val evento = hashMapOf(
             "titulo" to titulo,
-            "fechaInicio" to fechaInicio,
-            "fechaFin" to fechaFin,
+            "fechaInicio" to fechaInicioTimestamp,
+            "fechaFin" to fechaFinTimestamp,
             "horaInicio" to horaInicio,
             "horaFin" to horaFin,
             "notas" to notas,
             "sticker" to sticker
         )
 
-        FirebaseFirestore.getInstance().collection("eventos")
+        // Guardamos el evento en Firestore
+        val db = FirebaseFirestore.getInstance()
+        db.collection("eventos")
             .add(evento)
-            .addOnSuccessListener { doc ->
-                Toast.makeText(this, "Evento guardado con éxito 🎉", Toast.LENGTH_SHORT).show()
-                Log.d("Firebase", "Evento guardado con ID: ${doc.id}")
-                finish() // opcional: cerrar la actividad
+            .addOnSuccessListener {
+                Toast.makeText(this, "Evento guardado correctamente", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_LONG).show()
-                Log.e("Firebase", "Error al guardar evento", e)
+                Log.e("AddEventActivity", "Error al guardar evento", e)
             }
+
     }
 
 
