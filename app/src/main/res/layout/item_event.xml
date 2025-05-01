@@ -1,0 +1,28 @@
+<!-- item_event.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/eventTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Title"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/eventTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10:00 AM - 12:00 PM" />
+
+    <TextView
+        android:id="@+id/eventNotes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Some notes about the event."
+        android:textColor="#757575" />
+</LinearLayout>

@@ -15,9 +15,14 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.children
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.tfgdeverdad.EventAdapter
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.Timestamp
@@ -31,6 +36,7 @@ import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import com.kizitonwose.calendar.view.CalendarView
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.ViewContainer
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
@@ -54,6 +60,11 @@ class DayViewContainer(view: View) : ViewContainer(view) {
             val oldDate = activity.selectedDate
             val newDate = day
             val eventTextView: TextView = requireNotNull(view.findViewById(R.id.eventTextView))
+
+            activity.selectedDate?.let { date ->
+                activity.updateEventList(date.date) // ¡Aquí se actualiza el RecyclerView!
+            }
+
 
             // Si ya había una fecha seleccionada, refrescamos esa celda
             if (oldDate != null && oldDate != newDate) {
@@ -137,24 +148,28 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         val calendarView: CalendarView = findViewById(R.id.calendarView)
 
 
-//para la vista mensual
-        val currentMonth = YearMonth.now() //devuelve el mes y año actuales, sin incluir el día.
-        val startMonth =
-            currentMonth.minusMonths(24) //Mi calendario comienza 24 meses atrás, es decir, a fecha de hoy en febrero de 2023
-        val endMonth =
-            currentMonth.plusMonths(60) // Mi calendario incluirá los 60 meses posteriores a fecha de hoy, es decir, febrero de 2030
-        val firstDayOfWeek =
-            firstDayOfWeekFromLocale() // Establece el primer día de la semana segun la configuracion regional del dispositivo.
-        calendarView.setup(
-            startMonth,
-            endMonth,
-            firstDayOfWeek
-        ) //inicializa el CalendarView según lo establecido
-        calendarView.scrollToMonth(currentMonth) //para que muestre por defecto el mes actual.
+    //para la vista mensual
+        val currentMonth = YearMonth.now() // Devuelve el mes y año actuales, sinincluir el dia
+        val startMonth = currentMonth.minusMonths(12) // MI calendario comienza 12 meses atras, es decir en 2023
+        val endMonth = currentMonth.plusMonths(12) // Incluirá 60 meses posteriores a la fecha de hoy
+        val firstDayOfWeek =  firstDayOfWeekFromLocale()// O el que prefieras
 
-//para generar los dias de la semana
-        val daysOfWeek = daysOfWeek()
-        calendarView.setup(startMonth, endMonth, daysOfWeek.first())
+        calendarView.setup(startMonth, endMonth, firstDayOfWeek) // Configuración inicial
+        calendarView.post { // Usamos post() para asegurarnos de que el calendario está completamente cargado antes de desplazarlo
+            calendarView.scrollToMonth(currentMonth) // Desplazar al mes actual
+        }
+
+
+
+        //para que aparezca el nombre del mes
+        val monthTitle: TextView = findViewById(R.id.monthTitle)
+
+        //Para que se vea le nombre del mes
+        calendarView.monthScrollListener = { month ->
+            val mes = month.yearMonth.month.getDisplayName(TextStyle.FULL, Locale.getDefault()).replaceFirstChar { it.uppercase() }
+            val anio = month.yearMonth.year
+            monthTitle.text = "$mes $anio"
+        }
 
         /* val titlesContainer = findViewById<ViewGroup>(R.id.titlesContainer)
          titlesContainer.children*/ //correccion
@@ -164,6 +179,10 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
         // Verifico que el contenedor 'daysContainer' esté bien referenciado
         val actualContainer = titlesContainer?.findViewById<ViewGroup>(R.id.daysContainer)
+
+        val daysOfWeek = daysOfWeek(DayOfWeek.MONDAY)
+
+        calendarView.setup(startMonth, endMonth, daysOfWeek.first())
 
         // Me aseguro de que 'actualContainer' no sea nulo y filtra los TextViews
         actualContainer?.children?.filterIsInstance<TextView>() // Asegura que solo seleccionamos TextView
@@ -175,38 +194,32 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
 
         val db = FirebaseFirestore.getInstance()
+        // Después de cargar los eventos desde Firebase
         db.collection("eventos")
             .get()
             .addOnSuccessListener { result ->
+                // Itera sobre los documentos y agrega los eventos al mapa según su fecha
                 for (document in result) {
                     val evento = document.toObject(Event::class.java)
-                    val fechaInicioTimestamp: Timestamp? = evento.fechaInicio
-                    // Convierte Timestamp a LocalDate
-                    val fechaInicio: LocalDate? = fechaInicioTimestamp?.toDate()?.toInstant()?.atZone(java.time.ZoneId.systemDefault())?.toLocalDate()
+                    val fechaInicio: LocalDate? = evento.fechaInicio?.toDate()?.toInstant()?.atZone(java.time.ZoneId.systemDefault())?.toLocalDate()
 
-                    // Verificamos si fechaInicio no es null
                     if (fechaInicio != null) {
-                        // Confirmamos si existe una lista de eventos en el mapa para esa fecha
-                        if (!eventsMap.containsKey(fechaInicio)) {
-                            // Si no existe, se crea una nueva lista para esa fecha
-                            eventsMap[fechaInicio] = mutableListOf()
-                        }
-                        // Agregamos el evento a la lista correspondiente a esa fecha
-                        eventsMap[fechaInicio]?.add(evento)
-                    } else {
-                        Log.w("MainActivity", "fechaInicio es null para el evento ${evento.titulo}")
+                        eventsMap.getOrPut(fechaInicio) { mutableListOf() }.add(evento)
                     }
                 }
 
-                // Una vez cargados los eventos, notificamos al calendario para que se redibuje
-                findViewById<CalendarView>(R.id.calendarView).notifyCalendarChanged()
+                // Asegura que la actualización del calendario se haga después de que el calendario haya sido renderizado
+                calendarView.post {
+                    eventsMap.keys.forEach { date ->
+                        val calendarDay = CalendarDay(date, DayPosition.MonthDate)
+                        calendarView.notifyDayChanged(calendarDay)
+                    }
+                }
+
+                // Aquí llamamos a updateEventList para que los eventos se muestren en la lista
+                selectedDate?.let { updateEventList(it.date) }
             }
-            .addOnFailureListener { e ->
-                Log.e("MainActivity", "Error cargando eventos", e)
-            }
-
-
-
+            .addOnFailureListener { e -> Log.e("MainActivity", "Error cargando eventos", e) }
 
         // Aquí se configura el dayBinder del CalendarView (explico el dayBinder en una linea?)
         calendarView.dayBinder = object : MonthDayBinder<DayViewContainer> {
@@ -221,7 +234,17 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
                 if (data.position == DayPosition.MonthDate) {
                     container.textView.setTextColor(Color.DKGRAY)
 
+                    // Cambiar color del número del día si hay eventos
                     val activity = container.view.context as MainActivity
+                    val events = activity.eventsMap[data.date] ?: emptyList()
+
+                    if (events.isNotEmpty()) {
+                        container.view.background = ContextCompat.getDrawable(this@MainActivity, R.drawable.rounded_background)
+                    } else {
+                        container.view.setBackgroundColor(Color.TRANSPARENT)
+                    }
+
+
                     if (activity.selectedDate == data) {
                         container.textView.setBackgroundColor(Color.LTGRAY)
                     } else {
@@ -255,6 +278,15 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
 
     }
+
+
+    fun updateEventList(selectedDate: LocalDate) {
+        val events = eventsMap[selectedDate] ?: emptyList()
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerViewEventos)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = EventAdapter(events)
+    }
+
 
     private fun initToolBar() {
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar_main)
@@ -314,4 +346,29 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
 
 
+}
+
+class EventAdapter(private val events: List<MainActivity.Event>) :
+    RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_event, parent, false)
+        return EventViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
+        val event = events[position]
+        holder.titleTextView.text = event.titulo
+        holder.timeTextView.text = "${event.horaInicio} - ${event.horaFin}"
+        holder.notesTextView.text = event.notas
+    }
+
+    override fun getItemCount(): Int = events.size
+
+    class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val titleTextView: TextView = itemView.findViewById(R.id.eventTitle)
+        val timeTextView: TextView = itemView.findViewById(R.id.eventTime)
+        val notesTextView: TextView = itemView.findViewById(R.id.eventNotes)
+    }
 }

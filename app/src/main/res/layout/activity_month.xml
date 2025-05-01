@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Layout vertical de la pantalla -->
+        <!-- Layout principal vertical -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -23,6 +23,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <!-- Título del mes -->
+            <TextView
+                android:id="@+id/monthTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mes"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:paddingTop="80dp"
+                android:layout_gravity="center_horizontal" />
+
             <!-- Días de la semana -->
             <include
                 android:id="@+id/titlesContainer"
@@ -33,33 +44,41 @@
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.8"
                 app:cv_dayViewResource="@layout/calendar_day"
                 app:cv_daySize="seventhWidth"
                 app:cv_outDateStyle="endOfGrid" />
+
+            <!-- RecyclerView de eventos -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewEventos"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:layout_marginTop="16dp" />
+
         </LinearLayout>
 
-
+        <!-- Botón flotante -->
         <ImageView
             android:id="@+id/addButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="bottom|end"
-            android:layout_margin="50dp"
+            android:layout_margin="30dp"
             android:layout_marginBottom="60dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/add_event"
             android:visibility="gone"
             android:elevation="6dp"
-            android:clickable="true"
-            />
+            android:clickable="true" />
     </FrameLayout>
 
+    <!-- Drawer de navegación lateral -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="232dp"
-        android:layout_height="match_parent"
+        android:layout_width="250dp"
+        android:layout_height="300dp"
         android:layout_gravity="start"
         app:menu="@menu/activity_main_drawer" />
-
 </androidx.drawerlayout.widget.DrawerLayout>

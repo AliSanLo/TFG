@@ -6,8 +6,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:minHeight="120dp"
         android:orientation="vertical"
+
         android:gravity="center">
 
         <TextView
@@ -21,7 +23,7 @@
             android:id="@+id/eventTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="#76387c"
             android:textSize="12sp"
             android:visibility="gone"/>
     </LinearLayout>

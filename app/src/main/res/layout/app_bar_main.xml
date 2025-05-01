@@ -13,7 +13,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_main"
             app:title=" "
-            android:background="@color/fondo"
+            android:background="#fde6ff"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"/>
     
