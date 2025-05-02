@@ -273,6 +273,7 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
 
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
 
         // Creamos el objeto evento
         val evento = hashMapOf(
@@ -282,7 +283,8 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             "horaInicio" to horaInicio,
             "horaFin" to horaFin,
             "notas" to notas,
-            "sticker" to sticker
+            "sticker" to sticker,
+            "userId" to userId
         )
 
         // Guardamos el evento en Firestore

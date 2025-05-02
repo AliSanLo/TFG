@@ -79,12 +79,7 @@ class DayViewContainer(view: View) : ViewContainer(view) {
                 activity.selectedDate = newDate
             }
             // Mostrar u ocultar el botón de añadir evento
-            if (activity.selectedDate != null) {
-                activity.addButton.visibility = View.VISIBLE
-            } else {
-                activity.addButton.visibility = View.GONE
-
-            }
+            activity.addButton.visibility = if (activity.selectedDate != null) View.VISIBLE else View.GONE
 
             // Refrescamos la nueva celda
             activity.findViewById<CalendarView>(R.id.calendarView).notifyDayChanged(newDate)
@@ -143,7 +138,6 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         }
 
 
-
 //Inicialización de las vistas
         val calendarView: CalendarView = findViewById(R.id.calendarView)
 
@@ -154,7 +148,6 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         val endMonth = currentMonth.plusMonths(12) // Incluirá 60 meses posteriores a la fecha de hoy
         val firstDayOfWeek =  firstDayOfWeekFromLocale()// O el que prefieras
 
-        calendarView.setup(startMonth, endMonth, firstDayOfWeek) // Configuración inicial
         calendarView.post { // Usamos post() para asegurarnos de que el calendario está completamente cargado antes de desplazarlo
             calendarView.scrollToMonth(currentMonth) // Desplazar al mes actual
         }
@@ -194,8 +187,11 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
 
         val db = FirebaseFirestore.getInstance()
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid  // Sabemos que no es null
+
         // Después de cargar los eventos desde Firebase
         db.collection("eventos")
+            .whereEqualTo("userId", userId)
             .get()
             .addOnSuccessListener { result ->
                 // Itera sobre los documentos y agrega los eventos al mapa según su fecha
