@@ -31,7 +31,7 @@
        ├── 📂outputs
          ├── 📂apk
            ├── 📂debug
-            └── 📄TFG_Alicia.apk
+            └── 📄Nubiplanner.apk
 ```
 
 Gracias por leer y valorar mi trabajo :)
