@@ -242,7 +242,8 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
 
                     if (activity.selectedDate == data) {
-                        container.textView.setBackgroundColor(Color.LTGRAY)
+                        container.textView.setBackgroundResource(R.drawable.selected_day_background) // Definir este drawable
+                        container.textView.setTextColor(Color.WHITE) // Cambia el color del texto al blanco para contraste
                     } else {
                         container.textView.setBackgroundColor(Color.TRANSPARENT)
                     }

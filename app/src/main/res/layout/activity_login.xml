@@ -37,7 +37,7 @@ android:id="@+id/main"
         android:id="@+id/etPassword"
         style="@style/viewCustom"
         android:hint="@string/password"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
         android:paddingTop="10dp" />
     <TextView
         android:id="@+id/btonLogin"
@@ -52,6 +52,19 @@ android:id="@+id/main"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:onClick="login"/>
+    <TextView
+        android:id="@+id/btonSignIn"
+        style="@style/viewCustom"
+        android:background="@drawable/rounded_button"
+        android:layout_height="wrap_content"
+        android:text="Registrarse"
+        android:textSize="20sp"
+        android:radius="20dp"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:onClick="SignIn"/>
     <TextView
         android:id="@+id/txtForgotPassword"
         style="@style/viewCustom"
@@ -95,6 +108,7 @@ android:id="@+id/main"
         android:paddingLeft="30dp"
         android:drawablePadding="8dp"
         android:drawableLeft="@drawable/google"
-        android:background="@drawable/button_border"/>
+        android:background="@drawable/button_border"
+        />
 
 </LinearLayout>

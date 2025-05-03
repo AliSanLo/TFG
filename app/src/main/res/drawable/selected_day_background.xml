@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#ce78ea" /> <!-- El color que desees, por ejemplo, verde -->
+    <corners android:radius="50dp" /> <!-- Esto hace que sea un círculo perfecto -->
+</shape>

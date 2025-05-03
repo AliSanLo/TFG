@@ -27,8 +27,8 @@ class LoginActivity : AppCompatActivity() {
     }
     private var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    private var email by Delegates.notNull<String>() // Deelgates.notNull se asegura de que String no sea null
-    private var password by Delegates.notNull<String>()
+    private lateinit var email: String
+    private lateinit var password: String
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var lyTerms: LinearLayout //por los terminos y condiciones
@@ -88,17 +88,10 @@ class LoginActivity : AppCompatActivity() {
                     "email"
                 ) //si el inicio va bien, manda a la pagina principal
                 else {
-                    if (lyTerms.visibility == View.INVISIBLE) lyTerms.visibility =
-                        View.VISIBLE //si no va bien, hacer visible los terminos y condiciones
-                    else {
-                        var cbAcept =
-                            findViewById<CheckBox>(R.id.cbAcept) //si el checkbox está checkeado, derivar a la funcion Registrar
-                        if (cbAcept.isChecked) register()
-                    }
+                    Toast.makeText(this, "Este usuario no existe, regístrate.", Toast.LENGTH_SHORT).show()
+                    lyTerms.visibility = View.VISIBLE
                 }
             }
-
-
     }
 
     private fun goHome(
@@ -112,24 +105,11 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun register() {
-        email = etEmail.text.toString()
-        password = etPassword.text.toString()
-
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) { // si funciona, nada
-                    var dateRegister = SimpleDateFormat("dd/MM/yyyy").format(Date())
-
-                    var dbRegister = FirebaseFirestore.getInstance()
-                    dbRegister.collection("users").document(email)
-                        .set(hashMapOf("user" to email, "dateRegister" to dateRegister))
-
-
-                    goHome(email, "email")
-                } else Toast.makeText(this, "Error, algo ha salido mal :(", Toast.LENGTH_SHORT).show()
-            }
+    fun SignIn(view: View) {
+        val intent = Intent(this, SigninActivity::class.java)
+        startActivity(intent)
     }
+
 
     fun goTerms(v: View) {
         val intent = Intent(this, TermsActivity::class.java)
