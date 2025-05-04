@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
             val intent = Intent(this, AddEventActivity::class.java)
             startActivity(intent)
         }
-        val btnVerTodos = findViewById<Button>(R.id.btnVerTodosEventos)
+        val btnVerTodos = findViewById<TextView>(R.id.btnVerTodosEventos)
         btnVerTodos.setOnClickListener {
             val intent = Intent(this, EventListActivity::class.java)
             startActivity(intent)
@@ -245,8 +245,12 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
                             container.textView.setTextColor(Color.WHITE)
                         }
 
-                        data.date == LocalDate.now() -> {
-                            container.view.setBackgroundResource(R.drawable.border_current_day)
+                        events.isNotEmpty() && data.date == LocalDate.now() -> {
+                            container.view.setBackgroundResource(R.drawable.layer_current_day_event)
+                            container.eventStickerTextView.text = events.first().sticker
+                            container.eventTextView.text = if (events.size > 1) "${events.first().horaInicio} +" else events.first().horaInicio
+                            container.eventTextView.visibility = View.VISIBLE
+                            container.eventStickerTextView.visibility = View.VISIBLE
                         }
 
                         events.isNotEmpty() -> {
@@ -255,6 +259,10 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
                             container.eventTextView.text = if (events.size > 1) "${events.first().horaInicio} +" else events.first().horaInicio
                             container.eventTextView.visibility = View.VISIBLE
                             container.eventStickerTextView.visibility = View.VISIBLE
+                        }
+
+                        data.date == LocalDate.now() -> {
+                            container.view.setBackgroundResource(R.drawable.border_current_day)
                         }
                     }
 

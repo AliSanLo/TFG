@@ -15,13 +15,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <!-- Toolbar y AppBar -->
             <include
                 layout="@layout/app_bar_main"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                />
 
             <!-- Título del mes -->
             <TextView
@@ -37,7 +39,8 @@
             <!-- Días de la semana -->
             <include
                 android:id="@+id/titlesContainer"
-                layout="@layout/calendar_days_name_container" />
+                layout="@layout/calendar_days_name_container"
+                />
 
             <!-- Calendario -->
             <com.kizitonwose.calendar.view.CalendarView
@@ -49,14 +52,20 @@
             app:cv_daySize="seventhWidth"
             app:cv_outDateStyle="endOfGrid" />
 
-            <Button
+            <TextView
                 android:id="@+id/btnVerTodosEventos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
-                android:text="Ver todos mis eventos" />
+                android:background="@drawable/rounded_background"
+                android:text="Ver todos mis eventos"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true" />
 
 
         </LinearLayout>
