@@ -31,7 +31,7 @@
                 android:text="Mes"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:paddingTop="80dp"
+                android:paddingTop="60dp"
                 android:layout_gravity="center_horizontal" />
 
             <!-- Días de la semana -->
@@ -44,18 +44,20 @@
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1.8"
-                app:cv_dayViewResource="@layout/calendar_day"
-                app:cv_daySize="seventhWidth"
-                app:cv_outDateStyle="endOfGrid" />
+                android:layout_weight="1"
+            app:cv_dayViewResource="@layout/calendar_day"
+            app:cv_daySize="seventhWidth"
+            app:cv_outDateStyle="endOfGrid" />
 
             <!-- RecyclerView de eventos -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewEventos"
                 android:layout_width="match_parent"
+                android:background="#fbf1fe"
                 android:layout_height="0dp"
-                android:layout_weight="0.2"
-                android:layout_marginTop="16dp" />
+                android:layout_weight="1"
+            android:layout_marginTop="16dp" />
+
 
         </LinearLayout>
 

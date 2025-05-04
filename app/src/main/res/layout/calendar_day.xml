@@ -9,9 +9,9 @@
         android:layout_height="match_parent"
         android:minHeight="120dp"
         android:orientation="vertical"
-
         android:gravity="center">
 
+        <!-- Día del calendario (Número del día) -->
         <TextView
             android:id="@+id/calendarDayText"
             android:layout_width="wrap_content"
@@ -19,12 +19,33 @@
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/eventTextView"
+        <!-- Contenedor para los eventos -->
+        <LinearLayout
+            android:id="@+id/eventContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#76387c"
-            android:textSize="12sp"
-            android:visibility="gone"/>
+            android:orientation="vertical">
+
+            <!-- Texto del primer evento -->
+            <TextView
+                android:id="@+id/eventTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#76387c"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <!-- Aquí añadirás más eventos, si es necesario -->
+
+            <!-- Indicador de más eventos (solo visible si hay más de un evento) -->
+            <TextView
+                android:id="@+id/eventPlusTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:textSize="12sp"
+                android:visibility="gone"
+                android:textColor="#76387c" />
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

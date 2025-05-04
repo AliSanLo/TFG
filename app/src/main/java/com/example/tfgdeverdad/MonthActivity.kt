@@ -46,6 +46,7 @@ import java.util.Locale
 // Clase DayViewContainer que actúa como contenedor para cada celda de día en el calendario
 class DayViewContainer(view: View) : ViewContainer(view) {
     // Encuentra el TextView dentro de la vista
+    val dayText: TextView = view.findViewById(R.id.calendarDayText)
     val textView: TextView = requireNotNull(view.findViewById(R.id.calendarDayText))
     val eventTextView: TextView = requireNotNull(view.findViewById(R.id.eventTextView))
     val eventStickerTextView: TextView = TextView(view.context)
@@ -222,54 +223,51 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
             // Se llama solo cuando un nuevo container es necesario
             override fun create(view: View) = DayViewContainer(view)
             // Se llama cada vez que queremos reutilizar un container
-            override fun bind(container: DayViewContainer, data: com.kizitonwose.calendar.core.CalendarDay) {
-
+            override fun bind(container: DayViewContainer, data: CalendarDay) {
                 container.textView.text = data.date.dayOfMonth.toString()
                 container.day = data
+                container.dayText.text = data.date.dayOfMonth.toString()
+
+                val activity = container.view.context as MainActivity
+                val events = activity.eventsMap[data.date] ?: emptyList()
 
                 if (data.position == DayPosition.MonthDate) {
                     container.textView.setTextColor(Color.DKGRAY)
 
-                    // Cambiar color del número del día si hay eventos
-                    val activity = container.view.context as MainActivity
-                    val events = activity.eventsMap[data.date] ?: emptyList()
+                    container.view.background = null
+                    container.textView.setBackgroundColor(Color.TRANSPARENT)
+                    container.textView.setTextColor(Color.DKGRAY)
+                    container.eventTextView.visibility = View.GONE
+                    container.eventStickerTextView.visibility = View.GONE
 
-                    if (events.isNotEmpty()) {
-                        container.view.background = ContextCompat.getDrawable(this@MainActivity, R.drawable.rounded_background)
-                    } else {
-                        container.view.setBackgroundColor(Color.TRANSPARENT)
-                    }
+                    when {
+                        activity.selectedDate == data -> {
+                            container.textView.setBackgroundResource(R.drawable.selected_day_background)
+                            container.textView.setTextColor(Color.WHITE)
+                        }
 
+                        data.date == LocalDate.now() -> {
+                            container.view.setBackgroundResource(R.drawable.border_current_day)
+                        }
 
-                    if (activity.selectedDate == data) {
-                        container.textView.setBackgroundResource(R.drawable.selected_day_background) // Definir este drawable
-                        container.textView.setTextColor(Color.WHITE) // Cambia el color del texto al blanco para contraste
-                    } else {
-                        container.textView.setBackgroundColor(Color.TRANSPARENT)
+                        events.isNotEmpty() -> {
+                            container.view.background = ContextCompat.getDrawable(this@MainActivity, R.drawable.rounded_background)
+                            container.eventStickerTextView.text = events.first().sticker
+                            container.eventTextView.text = if (events.size > 1) "${events.first().horaInicio} +" else events.first().horaInicio
+                            container.eventTextView.visibility = View.VISIBLE
+                            container.eventStickerTextView.visibility = View.VISIBLE
+                        }
                     }
 
                 } else {
                     container.textView.setTextColor(Color.GRAY)
                     container.textView.setBackgroundColor(Color.TRANSPARENT)
-                }
-                // Buscar los eventos del día
-                val events = eventsMap[data.date] ?: emptyList()
-
-                // Si hay eventos, mostramos la hora y el sticker
-                if (events.isNotEmpty()) {
-                    val event = events.first()  // Obtén el primer evento (o el que desees)
-                    container.eventTextView.text = "${event.horaInicio}"  // Muestra la hora
-                    container.eventStickerTextView.text = event.sticker  // Muestra el sticker
-                    container.eventTextView.visibility = View.VISIBLE
-                    container.eventStickerTextView.visibility = View.VISIBLE
-
-                    // Aquí podrías agregar lógica para manejar más de un evento
-                } else {
+                    container.view.background = null
                     container.eventTextView.visibility = View.GONE
                     container.eventStickerTextView.visibility = View.GONE
                 }
-
             }
+
 
         }
 
