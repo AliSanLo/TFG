@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TFGDEVERDAD">
         <activity
+            android:name=".EventListActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddEventActivity"
             android:exported="false" />
         <activity
@@ -35,7 +38,6 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity android:name=".SigninActivity" />
-
     </application>
 
 </manifest>

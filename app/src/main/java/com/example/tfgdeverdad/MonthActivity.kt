@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -22,6 +23,7 @@ import androidx.core.view.children
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tfgdeverdad.Event
 import com.example.tfgdeverdad.EventAdapter
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
@@ -106,16 +108,6 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
     lateinit var addButton: ImageView
 
 
-    //Personalizamos la clase Event para poder transformar los datos de Firebase y mostrarlos en el calendario
-    data class Event(
-        val titulo: String = "",
-        val fechaInicio: Timestamp? = null,
-        val fechaFin: Timestamp? = null,
-        val horaInicio: String = "",
-        val horaFin: String = "",
-        val notas: String = "",
-        val sticker: String = ""
-        )
 
     val eventsMap = mutableMapOf<LocalDate, MutableList<Event>>()
 
@@ -137,6 +129,13 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
             val intent = Intent(this, AddEventActivity::class.java)
             startActivity(intent)
         }
+        val btnVerTodos = findViewById<Button>(R.id.btnVerTodosEventos)
+        btnVerTodos.setOnClickListener {
+            val intent = Intent(this, EventListActivity::class.java)
+            startActivity(intent)
+        }
+
+
 
 
 //Inicialización de las vistas
@@ -277,9 +276,7 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
     fun updateEventList(selectedDate: LocalDate) {
         val events = eventsMap[selectedDate] ?: emptyList()
-        val recyclerView: RecyclerView = findViewById(R.id.recyclerViewEventos)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = EventAdapter(events)
+
     }
 
 
@@ -343,7 +340,8 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
 }
 
-class EventAdapter(private val events: List<MainActivity.Event>) :
+class EventAdapter(private val events: List<Event>) :
+
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
