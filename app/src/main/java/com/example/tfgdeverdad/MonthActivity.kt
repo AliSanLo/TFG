@@ -355,6 +355,14 @@ class EventAdapter(private val events: List<Event>) :
         holder.titleTextView.text = event.titulo
         holder.timeTextView.text = "${event.horaInicio} - ${event.horaFin}"
         holder.notesTextView.text = event.notas
+
+        val fechaFormateada = event.fechaInicio?.toDate()?.let {
+            val formato = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+            formato.format(it)
+        } ?: "Sin fecha"
+        holder.dateTextView.text = fechaFormateada
+
+        holder.stickerTextView.text = event.sticker ?: "📌" // por si acaso viene null
     }
 
     override fun getItemCount(): Int = events.size
@@ -363,5 +371,7 @@ class EventAdapter(private val events: List<Event>) :
         val titleTextView: TextView = itemView.findViewById(R.id.eventTitle)
         val timeTextView: TextView = itemView.findViewById(R.id.eventTime)
         val notesTextView: TextView = itemView.findViewById(R.id.eventNotes)
+        val dateTextView: TextView = itemView.findViewById(R.id.eventDate)
+        val stickerTextView: TextView = itemView.findViewById(R.id.eventSticker)
     }
 }
