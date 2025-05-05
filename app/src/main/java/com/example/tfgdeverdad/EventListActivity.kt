@@ -23,7 +23,9 @@ class EventListActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerViewTodosEventos)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = EventAdapter(listaEventos)
+        adapter = EventAdapter(listaEventos) { evento ->
+            eliminarEvento(evento)
+        }
         recyclerView.adapter = adapter
 
         cargarEventosDelUsuario()
@@ -43,6 +45,7 @@ class EventListActivity : AppCompatActivity() {
                 listaEventos.clear()
                 for (doc in result) {
                     val evento = doc.toObject(Event::class.java)
+                    evento.eventId = doc.id // ✅ aquí le pasas el ID del documento de Firestore
                     listaEventos.add(evento)
                 }
                 adapter.notifyDataSetChanged()
@@ -52,4 +55,29 @@ class EventListActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error al cargar eventos", Toast.LENGTH_SHORT).show()
             }
     }
+
+
+    private fun eliminarEvento(evento: Event) {
+        val db = FirebaseFirestore.getInstance()
+
+        val eventId = evento.eventId
+        if (eventId.isNullOrEmpty()) {
+            Toast.makeText(this, "El ID del evento no es válido", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        db.collection("eventos").document(eventId).delete()
+            .addOnSuccessListener {
+                listaEventos.remove(evento)
+                adapter.notifyDataSetChanged()
+                Toast.makeText(this, "Evento eliminado", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Log.e("EventListActivity", "Error al eliminar evento", e)
+                Toast.makeText(this, "Error al eliminar el evento", Toast.LENGTH_SHORT).show()
+            }
+    }
+
 }
+
+

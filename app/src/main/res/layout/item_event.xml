@@ -41,4 +41,10 @@
         android:layout_height="wrap_content"
         android:text="Some notes about the event."
         android:textColor="#757575" />
+    <ImageView
+        android:id="@+id/deleteEvent"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_basura"
+        android:padding="4dp"/>
 </LinearLayout>

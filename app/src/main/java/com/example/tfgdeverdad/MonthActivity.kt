@@ -348,7 +348,7 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
 }
 
-class EventAdapter(private val events: List<Event>) :
+class EventAdapter(private val events: List<Event>, private val onDeleteClick: (Event) -> Unit) :
 
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
@@ -360,6 +360,7 @@ class EventAdapter(private val events: List<Event>) :
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val event = events[position]
+
         holder.titleTextView.text = event.titulo
         holder.timeTextView.text = "${event.horaInicio} - ${event.horaFin}"
         holder.notesTextView.text = event.notas
@@ -371,6 +372,10 @@ class EventAdapter(private val events: List<Event>) :
         holder.dateTextView.text = fechaFormateada
 
         holder.stickerTextView.text = event.sticker ?: "📌" // por si acaso viene null
+
+        holder.btnEliminar.setOnClickListener {
+            onDeleteClick(event)
+        }
     }
 
     override fun getItemCount(): Int = events.size
@@ -381,5 +386,7 @@ class EventAdapter(private val events: List<Event>) :
         val notesTextView: TextView = itemView.findViewById(R.id.eventNotes)
         val dateTextView: TextView = itemView.findViewById(R.id.eventDate)
         val stickerTextView: TextView = itemView.findViewById(R.id.eventSticker)
+        val btnEliminar: ImageView = itemView.findViewById(R.id.deleteEvent)
+
     }
 }
