@@ -344,6 +344,41 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
+    fun cargarEventosDesdeFirestore() {
+        val db = FirebaseFirestore.getInstance()
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+
+        eventsMap.clear()  // Muy importante: limpiar antes
+        db.collection("eventos")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val evento = document.toObject(Event::class.java)
+                    val fechaInicio = evento.fechaInicio?.toDate()
+                        ?.toInstant()?.atZone(java.time.ZoneId.systemDefault())?.toLocalDate()
+                    if (fechaInicio != null) {
+                        eventsMap.getOrPut(fechaInicio) { mutableListOf() }.add(evento)
+                    }
+                }
+
+                // Refrescar calendario
+                findViewById<CalendarView>(R.id.calendarView).post {
+                    eventsMap.keys.forEach { date ->
+                        val calendarDay = CalendarDay(date, DayPosition.MonthDate)
+                        findViewById<CalendarView>(R.id.calendarView).notifyDayChanged(calendarDay)
+                    }
+                }
+
+                // Refrescar lista de eventos
+                selectedDate?.let { updateEventList(it.date) }
+            }
+    }
+    override fun onResume() {
+        super.onResume()
+        cargarEventosDesdeFirestore()  // ¡Reload al volver de EditEventActivity!
+    }
+
 
 
 

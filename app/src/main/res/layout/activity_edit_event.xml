@@ -1,10 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditEventActivity">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Título del Evento -->
+    <EditText
+        android:id="@+id/etTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Título del evento"
+        android:inputType="text" />
+
+    <!-- Hora de Inicio -->
+    <EditText
+        android:id="@+id/etHoraInicio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hora de inicio"
+        android:inputType="time" />
+
+    <!-- Hora de Fin -->
+    <EditText
+        android:id="@+id/etHoraFin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hora de fin"
+        android:inputType="time" />
+
+    <!-- Notas del Evento -->
+    <EditText
+        android:id="@+id/etNotas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Notas del evento"
+        android:inputType="textMultiLine" />
+
+    <!-- Sticker del Evento -->
+    <EditText
+        android:id="@+id/etSticker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Sticker"
+        android:inputType="text" />
+
+    <!-- Fecha del Evento -->
+    <EditText
+        android:id="@+id/etFecha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha del evento"
+        android:inputType="date" />
+    <Button
+        android:id="@+id/btnGuardar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar Cambios"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#BB86FC"
+
+    />
+
+
+
+
+</LinearLayout>
