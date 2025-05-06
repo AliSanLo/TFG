@@ -1,5 +1,6 @@
 package com.example.tfgdeverdad
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -348,7 +349,7 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
 }
 
-class EventAdapter(private val events: List<Event>, private val onDeleteClick: (Event) -> Unit) :
+class EventAdapter(private val context: Context, private val events: List<Event>, private val onDeleteClick: (Event) -> Unit) :
 
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
@@ -371,12 +372,26 @@ class EventAdapter(private val events: List<Event>, private val onDeleteClick: (
         } ?: "Sin fecha"
         holder.dateTextView.text = fechaFormateada
 
-        holder.stickerTextView.text = event.sticker ?: "📌" // por si acaso viene null
+        holder.stickerTextView.text = event.sticker ?: "📌" // sticker por defecto
 
+        // Configurar el botón de eliminar
         holder.btnEliminar.setOnClickListener {
             onDeleteClick(event)
         }
+
+        // Configurar el botón de editar
+        holder.btnEditar.setOnClickListener {
+            if (event.eventId != null) {
+                val intent = Intent(context, EditEventActivity::class.java)
+                intent.putExtra("event_id", event.eventId)  // Pasa el id del evento
+                context.startActivity(intent)
+            } else {
+                Toast.makeText(context, "Error: ID de evento no disponible", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
+
 
     override fun getItemCount(): Int = events.size
 
@@ -387,6 +402,7 @@ class EventAdapter(private val events: List<Event>, private val onDeleteClick: (
         val dateTextView: TextView = itemView.findViewById(R.id.eventDate)
         val stickerTextView: TextView = itemView.findViewById(R.id.eventSticker)
         val btnEliminar: ImageView = itemView.findViewById(R.id.deleteEvent)
+        val btnEditar: ImageView = itemView.findViewById(R.id.editEvent)
 
     }
 }

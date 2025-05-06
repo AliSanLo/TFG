@@ -1,50 +1,79 @@
-<!-- item_event.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="#FFFFFF"
+    android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/eventDate"
-        android:layout_width="wrap_content"
+    <!-- Información del Evento (disposición vertical) -->
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Fecha"
-        android:textColor="#000000"
-        android:textSize="14sp" />
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingEnd="16dp">
+        <!-- Fecha del Evento -->
+        <TextView
+            android:id="@+id/eventDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha del evento"
+            android:textSize="16sp"
+            android:textStyle="bold"
+        android:textColor="#000000" />
 
-    <TextView
-        android:id="@+id/eventSticker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="🎉"
-        android:textSize="24sp" />
-
-    <TextView
-        android:id="@+id/eventTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Event Title"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        <!-- Título del Evento -->
+        <TextView
+            android:id="@+id/eventTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Título del evento"
+            android:textColor="#757575" />
 
 
-    <TextView
-        android:id="@+id/eventTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="10:00 AM - 12:00 PM" />
+        <!-- Hora del Evento -->
+        <TextView
+            android:id="@+id/eventTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hora del evento"
+            android:textSize="14sp"
+            android:textColor="#757575" />
 
-    <TextView
-        android:id="@+id/eventNotes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Some notes about the event."
-        android:textColor="#757575" />
+        <TextView
+            android:id="@+id/eventSticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎉"
+            android:textSize="24sp" />
+
+        <!-- Notas del Evento -->
+        <TextView
+            android:id="@+id/eventNotes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notas del evento"
+            android:textSize="14sp"
+            android:textColor="#757575" />
+    </LinearLayout>
+
+    <!-- Botón para Eliminar (Alineado a la Derecha) -->
     <ImageView
         android:id="@+id/deleteEvent"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_basura"
-        android:padding="4dp"/>
+        android:layout_gravity="center_vertical" />
+
+    <!-- Botón para Editar (Alineado a la Derecha, al lado del botón eliminar) -->
+    <ImageView
+        android:id="@+id/editEvent"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_editar"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"/> <!-- Espaciado entre el ícono de eliminar y editar -->
+
 </LinearLayout>

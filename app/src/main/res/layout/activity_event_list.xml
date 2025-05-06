@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/eventListRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#FFFFFF"
-    tools:context=".EventListActivity">
+    android:background="#FFFFFF">
 
-    <!-- Título -->
+    <!-- Título de la lista de eventos -->
     <TextView
         android:id="@+id/tvTituloEventos"
         android:layout_width="wrap_content"
@@ -21,14 +19,14 @@
         android:layout_gravity="center_horizontal"
         android:paddingBottom="8dp" />
 
-    <!-- Separador opcional -->
+    <!-- Separador (opcional) -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#DDDDDD"
         android:layout_marginBottom="8dp" />
 
-    <!-- Lista de eventos -->
+    <!-- RecyclerView para eventos -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTodosEventos"
         android:layout_width="match_parent"
@@ -37,5 +35,4 @@
         android:background="#FAFAFA"
         android:clipToPadding="false"
         android:paddingBottom="8dp"/>
-
 </LinearLayout>
