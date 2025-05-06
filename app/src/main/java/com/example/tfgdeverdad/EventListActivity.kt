@@ -23,7 +23,7 @@ class EventListActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerViewTodosEventos)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = EventAdapter(listaEventos) { evento ->
+        adapter = EventAdapter(this, listaEventos) { evento ->
             eliminarEvento(evento)
         }
         recyclerView.adapter = adapter

@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TFGDEVERDAD">
         <activity
+            android:name=".EditEventActivity"
+            android:exported="false" />
+        <activity
             android:name=".EventListActivity"
             android:exported="false" />
         <activity
