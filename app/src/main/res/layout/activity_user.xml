@@ -7,12 +7,23 @@
     tools:context=".UserActivity">
 
     <ImageView
+        android:id="@+id/flechaAtras"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="start"
+        android:contentDescription="Volver"
+        android:src="@drawable/back"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="211dp"
         android:layout_gravity="center_horizontal"
+        android:paddingTop="30dp"
         android:src="@drawable/password"
-        android:paddingTop="30dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/flechaAtras" />
     <!-- EditText for current password -->
     <EditText
         android:id="@+id/edtCurrentPassword"
@@ -48,7 +59,7 @@
         android:text="Cambiar contraseña"
         android:textSize="18sp"
         android:textColor="@android:color/white"
-        android:backgroundTint="#BB86FC"
+        android:backgroundTint="@color/quantum_purple200"
         android:layout_marginTop="32dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"

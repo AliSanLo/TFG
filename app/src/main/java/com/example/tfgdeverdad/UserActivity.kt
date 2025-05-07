@@ -3,6 +3,7 @@ package com.example.tfgdeverdad
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.EmailAuthProvider
@@ -37,6 +38,12 @@ class UserActivity : AppCompatActivity() {
             } else {
                 cambiarContraseña(currentPassword, newPassword)
             }
+        }
+
+        //Flecha para ir a la actividad anterior
+        val flechaAtras: ImageView = findViewById(R.id.flechaAtras)
+        flechaAtras.setOnClickListener {
+            finish()
         }
     }
 

@@ -62,15 +62,15 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         //Stickers
         val stickers = listOf(
-            "🎉 ",
-            "🐱 ",
-            "🔥 ",
-            "🌟 ",
-            "📚 ",
-            "💻 ",
-            "🧠 ",
-            "🎮 ",
-            "📝 "
+            "🎉",
+            "🐱",
+            "🔥",
+            "🌟",
+            "📚",
+            "💻",
+            "🧠",
+            "🎮",
+            "📝"
         )
 
 
@@ -94,12 +94,7 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val titulo = findViewById<TextView>(R.id.titulo1)
         val paint = titulo.paint
         val width = paint.measureText(titulo.text.toString())
-        val textShader = LinearGradient(
-            0f, 0f, width, titulo.textSize,
-            intArrayOf(Color.parseColor("#8E2DE2"), Color.parseColor("#4A00E0")),
-            null, Shader.TileMode.CLAMP
-        )
-        titulo.paint.shader = textShader
+
 
 
 

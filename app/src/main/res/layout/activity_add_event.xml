@@ -139,12 +139,12 @@
 
         <Button
             android:id="@+id/GuardarEvento"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Guardar"
             android:textColor="@android:color/white"
-            android:backgroundTint="#4B0082"
+            android:backgroundTint="@color/quantum_purple200"
             app:layout_constraintTop_toBottomOf="@+id/stickerSelector"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

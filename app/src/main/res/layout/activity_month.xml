@@ -33,6 +33,7 @@
                 android:textSize="25sp"
                 android:textStyle="bold"
                 android:paddingTop="60dp"
+                android:paddingBottom="40dp"
                 android:layout_gravity="center_horizontal" />
 
             <!-- Días de la semana -->
@@ -58,7 +59,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
-                android:background="@drawable/rounded_background"
+                android:background="@drawable/rounded_button"
                 android:text="Ver todos mis eventos"
                 android:textColor="@color/white"
                 android:textStyle="bold"

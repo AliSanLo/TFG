@@ -50,7 +50,7 @@ class EditEventActivity : AppCompatActivity() {
         //Flecha para ir a la actividad anterior
         val flechaAtras: ImageView = findViewById(R.id.flechaAtras)
         flechaAtras.setOnClickListener {
-            finish() // O usa onBackPressedDispatcher.onBackPressed() si prefieres
+            finish()
         }
 
 
