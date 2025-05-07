@@ -4,7 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    >
+    <ImageView
+        android:id="@+id/flechaAtras"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="start"
+        android:src="@drawable/back"
+    android:contentDescription="Volver"
+        android:layout_marginTop="20dp"
+    />
 
     <!-- Título del Evento -->
     <EditText
@@ -12,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Título del evento"
-        android:inputType="text" />
+        android:inputType="text"
+        android:layout_marginTop="80dp"/>
 
     <!-- Hora de Inicio -->
     <EditText
@@ -20,7 +31,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Hora de inicio"
-        android:inputType="time" />
+        android:inputType="time"
+        android:layout_marginTop="12dp"/>
 
     <!-- Hora de Fin -->
     <EditText
@@ -28,7 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Hora de fin"
-        android:inputType="time" />
+        android:inputType="time"
+        android:layout_marginTop="12dp"/>
 
     <!-- Notas del Evento -->
     <EditText
@@ -36,7 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Notas del evento"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:layout_marginTop="12dp"/>
 
     <!-- Sticker del Evento -->
     <EditText
@@ -44,7 +58,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Sticker"
-        android:inputType="text" />
+        android:inputType="text"
+        android:layout_marginTop="12dp"/>
 
     <!-- Fecha del Evento -->
     <EditText
@@ -52,7 +67,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Fecha del evento"
-        android:inputType="date" />
+        android:inputType="date"
+        android:layout_marginTop="12dp"/>
     <Button
         android:id="@+id/btnGuardar"
         android:layout_width="match_parent"
@@ -61,6 +77,7 @@
         android:textSize="18sp"
         android:textColor="@android:color/white"
         android:backgroundTint="#BB86FC"
+        android:layout_marginTop="50dp"
 
     />
 

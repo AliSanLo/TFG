@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tfgdeverdad.Event
 import com.example.tfgdeverdad.EventAdapter
+import com.firebase.ui.auth.data.model.User
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.Timestamp
@@ -65,9 +66,7 @@ class DayViewContainer(view: View) : ViewContainer(view) {
             val newDate = day
             val eventTextView: TextView = requireNotNull(view.findViewById(R.id.eventTextView))
 
-            activity.selectedDate?.let { date ->
-                activity.updateEventList(date.date) // ¡Aquí se actualiza el RecyclerView!
-            }
+
 
 
             // Si ya había una fecha seleccionada, refrescamos esa celda
@@ -102,8 +101,8 @@ class DayViewContainer(view: View) : ViewContainer(view) {
 class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
     private lateinit var drawer: DrawerLayout
-    private lateinit var toggle: ActionBarDrawerToggle
     var selectedDate: CalendarDay? = null  //  guarda la fecha seleccionada
+    private lateinit var toggle: ActionBarDrawerToggle
 
     val selectedDates = mutableSetOf<LocalDate>()
     lateinit var addButton: ImageView
@@ -213,8 +212,7 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
                     }
                 }
 
-                // Aquí llamamos a updateEventList para que los eventos se muestren en la lista
-                selectedDate?.let { updateEventList(it.date) }
+
             }
             .addOnFailureListener { e -> Log.e("MainActivity", "Error cargando eventos", e) }
 
@@ -283,11 +281,6 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
     }
 
 
-    fun updateEventList(selectedDate: LocalDate) {
-        val events = eventsMap[selectedDate] ?: emptyList()
-
-    }
-
 
     private fun initToolBar() {
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar_main)
@@ -336,14 +329,27 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
     }
 
+    //Menu desplegable
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.nav_item_user -> {
+                val intent = Intent (this, UserActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.nav_item_Eventos -> {
+                val intent = Intent(this, EventListActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.nav_item_Calendar -> {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
             R.id.nav_item_signOut -> signOut()
-
         }
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
+
     fun cargarEventosDesdeFirestore() {
         val db = FirebaseFirestore.getInstance()
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
@@ -370,14 +376,21 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
                     }
                 }
 
-                // Refrescar lista de eventos
-                selectedDate?.let { updateEventList(it.date) }
             }
     }
     override fun onResume() {
         super.onResume()
         cargarEventosDesdeFirestore()  // ¡Reload al volver de EditEventActivity!
     }
+
+    //Para el menu
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
 
 

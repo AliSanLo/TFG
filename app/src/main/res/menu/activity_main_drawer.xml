@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
-        <item android:id="@+id/nav_item_main"
-            android:icon="@drawable/perfil"
+        <item android:id="@+id/nav_item_user"
+            android:icon="@drawable/ic_perfil"
             android:title="@string/perfil"/>
+
+        <item android:id="@+id/nav_item_Calendar"
+            android:icon="@drawable/ic_calendar"
+            android:title="Calendario"
+            />
+        <item android:id="@+id/nav_item_Eventos"
+            android:icon="@drawable/ic_list"
+            android:title="Eventos"
+            />
         <item android:id="@+id/nav_item_signOut"
-            android:icon="@drawable/cerrar_sesion"
+            android:icon="@drawable/ic_logout"
             android:title="@string/signOut"
             />
     </group>

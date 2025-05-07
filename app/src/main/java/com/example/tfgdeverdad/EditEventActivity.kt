@@ -3,6 +3,7 @@ package com.example.tfgdeverdad
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -44,6 +45,15 @@ class EditEventActivity : AppCompatActivity() {
 
         // Establecemos el layout
         setContentView(R.layout.activity_edit_event)
+
+
+        //Flecha para ir a la actividad anterior
+        val flechaAtras: ImageView = findViewById(R.id.flechaAtras)
+        flechaAtras.setOnClickListener {
+            finish() // O usa onBackPressedDispatcher.onBackPressed() si prefieres
+        }
+
+
 
         // Referenciamos los EditText de la interfaz
         etTitulo = findViewById(R.id.etTitulo)
