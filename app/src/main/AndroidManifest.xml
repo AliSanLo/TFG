@@ -16,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TFGDEVERDAD">
-
+        <activity
+            android:name=".AddEtiquetaActivity"
+            android:exported="false" />
         <activity
             android:name=".UserActivity"
             android:exported="false" />

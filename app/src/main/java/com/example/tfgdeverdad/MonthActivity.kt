@@ -106,6 +106,7 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
 
     val selectedDates = mutableSetOf<LocalDate>()
     lateinit var addButton: ImageView
+    lateinit var tagButton: ImageView
 
 
 
@@ -121,7 +122,7 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         initToolBar()
         initNavigationView()
 
-//Iniciar boton aniadir evento
+//Iniciar boton añdir evento
         addButton = findViewById(R.id.addButton)
         addButton.visibility = View.GONE // Oculto al inicio
 
@@ -135,8 +136,14 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
             startActivity(intent)
         }
 
+//Iniciar boton anñdir etiqueta
 
+        tagButton = findViewById(R.id.addTag)
 
+        tagButton.setOnClickListener {
+            val intent = Intent(this, AddEtiquetaActivity::class.java)
+            startActivity(intent)
+        }
 
 //Inicialización de las vistas
         val calendarView: CalendarView = findViewById(R.id.calendarView)

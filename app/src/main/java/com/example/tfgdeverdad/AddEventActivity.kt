@@ -178,6 +178,36 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             guardarEvento()
 
         }
+
+        //Sistema de etiquetas
+
+        val selectorEtiqueta = findViewById<MaterialAutoCompleteTextView>(R.id.selectorEtiqueta)
+        val etiquetasList = mutableListOf<String>()
+
+        val db = FirebaseFirestore.getInstance()
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+
+        db.collection("etiquetas")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val nombreEtiqueta = document.getString("nombre")
+                    if (!nombreEtiqueta.isNullOrEmpty()) {
+                        etiquetasList.add(nombreEtiqueta)
+                    }
+                }
+
+                val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, etiquetasList)
+                selectorEtiqueta.setAdapter(adapter)
+            }
+            .addOnFailureListener { e ->
+                Log.e("AddEventActivity", "Error al cargar etiquetas: ", e)
+                Toast.makeText(this, "No se pudieron cargar las etiquetas", Toast.LENGTH_SHORT).show()
+            }
+
+
+
     }
 
     private fun initToolBar() {
@@ -245,6 +275,9 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val notas = findViewById<EditText>(R.id.Notas).text.toString().trim()
         val sticker = findViewById<AutoCompleteTextView>(R.id.stickerSelector).text.toString().trim()
 
+        val etiquetaSeleccionada = findViewById<MaterialAutoCompleteTextView>(R.id.selectorEtiqueta).text.toString().trim()
+
+
         // Validación rápida
         if (titulo.isEmpty() || fechaInicio.isEmpty() ) {
             Toast.makeText(this, "Por favor, completa los campos obligatorios", Toast.LENGTH_SHORT).show()
@@ -279,6 +312,7 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             "horaFin" to horaFin,
             "notas" to notas,
             "sticker" to sticker,
+            "etiqueta" to etiquetaSeleccionada,
             "userId" to userId
         )
 

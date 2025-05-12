@@ -83,6 +83,20 @@
             android:visibility="gone"
             android:elevation="6dp"
             android:clickable="true" />
+
+        <!-- Botón flotante -->
+        <ImageView
+            android:id="@+id/addTag"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="30dp"
+            android:layout_marginBottom="70dp"
+            android:src="@drawable/etiqueta_tag"
+            android:clickable="true" />
+
+
+
     </FrameLayout>
 
     <!-- Drawer de navegación lateral -->

@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/tagImg"
+        android:layout_width="match_parent"
+        android:layout_height="211dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/etiqueta_grande" />
+
+    <EditText android:id="@+id/TituloEt"
+        android:hint="Título etiqueta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText android:id="@+id/ColorEt"
+        android:hint="Color (#FF0000)"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <SeekBar android:id="@+id/Prioridad"
+        android:max="9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText android:id="@+id/StickerEt"
+        android:hint="Sticker (ej. 🎉)"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <CheckBox android:id="@+id/checkboxUrgente"
+        android:text="¿Urgente?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btonGaurdarEtiqueta"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/quantum_purple200"
+        android:text="Guardar"
+        android:layout_gravity="center_horizontal"
+
+        android:textColor="@android:color/white" />
+</LinearLayout>
