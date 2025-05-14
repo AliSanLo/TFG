@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TFGDEVERDAD">
         <activity
+            android:name=".EtiquetaListActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddEtiquetaActivity"
             android:exported="false" />
         <activity

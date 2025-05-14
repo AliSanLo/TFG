@@ -15,36 +15,84 @@
     <EditText android:id="@+id/TituloEt"
         android:hint="Título etiqueta"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <EditText android:id="@+id/ColorEt"
-        android:hint="Color (#FF0000)"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        />
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text=" Asigna un color a la etiqueta: "
+        android:textColor="#b5a5ba"
+        android:layout_marginTop="16dp"
+        />
 
-    <SeekBar android:id="@+id/Prioridad"
-        android:max="9"
+    <Spinner
+        android:id="@+id/ColorEt"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="Color"/>
 
-    <EditText android:id="@+id/StickerEt"
-        android:hint="Sticker (ej. 🎉)"
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text=" Asigna a la etiqueta una prioridad. \n\ Cuanto mayor sea el número, mayor será su prioridad "
+    android:textColor="#b5a5ba"
+    android:layout_marginTop="16dp"
+    />
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <SeekBar
+            android:id="@+id/Prioridad"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:max="9" />
+
+        <TextView
+            android:id="@+id/valorPrioridad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:paddingStart="12dp"
+            android:textSize="16sp"
+            android:textColor="#b5a5ba" />
+    </LinearLayout>
+
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" ¡Elige el sticker con el que diferenciarás esta etiqueta de las demas!"
+        android:textColor="#b5a5ba"
+        android:layout_marginTop="16dp"
+        />
+    <Spinner
+        android:id="@+id/StickerEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Etiqueta"/>
 
     <CheckBox android:id="@+id/checkboxUrgente"
         android:text="¿Urgente?"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        />
 
     <Button
-        android:id="@+id/btonGaurdarEtiqueta"
+        android:id="@+id/btnGuardarEtiqueta"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/quantum_purple200"
         android:text="Guardar"
         android:layout_gravity="center_horizontal"
-
         android:textColor="@android:color/white" />
 </LinearLayout>

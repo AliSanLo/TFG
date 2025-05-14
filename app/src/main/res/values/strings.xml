@@ -1,4 +1,26 @@
 <resources>
     <string name="open_drawer">Abrir menú</string>
     <string name="close_drawer">Cerrar menú</string>
+
+    <string-array name="colores_etiqueta">
+        <item>Rojo</item>
+        <item>Verde</item>
+        <item>Azul</item>
+        <item>Amarillo</item>
+        <item>Morado</item>
+    </string-array>
+
+    <string-array name="sticker_etiqueta">
+        <item>🎉</item>
+        <item>🐱</item>
+        <item>🔥</item>
+        <item>🌟</item>
+        <item>📚</item>
+        <item>💻</item>
+        <item>🧠</item>
+        <item>🎮</item>
+        <item>📝</item>
+    </string-array>
+
+
 </resources>

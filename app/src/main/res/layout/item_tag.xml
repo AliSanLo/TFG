@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="#FFFFFF"
+    android:gravity="center_vertical">
+
+    <!-- Información de la Etiqeuta (disposición vertical) -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingEnd="16dp">
+        <!-- Fecha del Evento -->
+
+        <!-- Título de la etqieuta -->
+        <TextView
+            android:id="@+id/tagTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre de la etiqueta"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+
+        <!--  Color -->
+        <TextView
+            android:id="@+id/tagColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Color de la etiqueta"
+            android:textSize="14sp"
+            android:textColor="#757575" />
+
+        <TextView
+            android:id="@+id/tagSticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎉"
+            android:textSize="24sp" />
+
+        <!-- Notas del Evento -->
+        <TextView
+            android:id="@+id/tagPrioridad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prioridad"
+            android:textSize="14sp"
+            android:textColor="#757575" />
+        <TextView
+            android:id="@+id/tagUrgencia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Urgencia"
+            android:textSize="14sp"
+            android:textColor="#757575" />
+    </LinearLayout>
+
+    <!-- Botón para Eliminar (Alineado a la Derecha) -->
+    <ImageView
+        android:id="@+id/deleteEvent"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_basura"
+        android:layout_gravity="center_vertical" />
+
+    <!-- Botón para Editar (Alineado a la Derecha, al lado del botón eliminar) -->
+    <ImageView
+        android:id="@+id/editEvent"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_editar"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"/> <!-- Espaciado entre el ícono de eliminar y editar -->
+
+</LinearLayout>
