@@ -406,6 +406,16 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
         }
         return super.onOptionsItemSelected(item)
     }
+    fun getColorHex(nombreColor: String): String {
+        return when (nombreColor.lowercase()) {
+            "rojo" -> "#FF0000"
+            "verde" -> "#00FF00"
+            "azul" -> "#0000FF"
+            "amarillo" -> "#FFFF00"
+            "morado" -> "#800080"
+            else -> "#757575" // gris por defecto
+        }
+    }
 
 
 
@@ -424,6 +434,8 @@ class EventAdapter(private val context: Context, private val events: List<Event>
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
+
+
         val event = events[position]
 
         holder.titleTextView.text = event.titulo
@@ -470,6 +482,16 @@ class EventAdapter(private val context: Context, private val events: List<Event>
 
     }
 }
+fun getColorHex(nombreColor: String): String {
+    return when (nombreColor.lowercase()) {
+        "rojo" -> "#FF0000"
+        "verde" -> "#00FF00"
+        "azul" -> "#0000FF"
+        "amarillo" -> "#FFFF00"
+        "morado" -> "#800080"
+        else -> "#757575"
+    }
+}
 
 class EtiquetaAdapter(
     private val context: Context,
@@ -487,8 +509,18 @@ class EtiquetaAdapter(
 
         holder.tituloTextView.text = etiqueta.titulo
         holder.stickerTextView.text = etiqueta.sticker
-        holder.colorView.setBackgroundColor(Color.parseColor(etiqueta.color))
+
+        //  Protección contra colores inválidos
+        val colorHex = getColorHex(etiqueta.color ?: "") // Usamos la función externa para obtener color
+        try {
+            holder.colorView.setBackgroundColor(Color.parseColor(colorHex))
+        } catch (e: IllegalArgumentException) {
+            Log.e("EtiquetaAdapter", "Color inválido: ${etiqueta.color}", e)
+            holder.colorView.setBackgroundColor(Color.GRAY) // Color de respaldo
+        }
+
         holder.prioridadTextView.text = etiqueta.prioridad.toString()
+
         holder.btnEliminar.setOnClickListener {
             onDeleteClick(etiqueta)
         }
@@ -503,5 +535,4 @@ class EtiquetaAdapter(
         val prioridadTextView: TextView = itemView.findViewById(R.id.tagPrioridad)
         val btnEliminar: ImageView = itemView.findViewById(R.id.deleteTag)
     }
-
 }
