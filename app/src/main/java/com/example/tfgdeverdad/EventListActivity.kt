@@ -48,7 +48,7 @@ class EventListActivity : AppCompatActivity(),NavigationView.OnNavigationItemSel
         // Configuración del ícono de hamburguesa
         // Obtén las referencias del DrawerLayout y la Toolbar
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbarEv)
 
         // Configura la Toolbar como la ActionBar
         setSupportActionBar(toolbar)

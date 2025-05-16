@@ -145,6 +145,15 @@ class MainActivity : AppCompatActivity(), OnNavigationItemSelectedListener {
             startActivity(intent)
         }
 
+    //Iniciar boton listar etiquetas
+        val listTagButton = findViewById<ImageView>(R.id.listTag)
+        listTagButton.setOnClickListener {
+            val intent = Intent(this, EtiquetaListActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
 //Inicialización de las vistas
         val calendarView: CalendarView = findViewById(R.id.calendarView)
 
@@ -460,4 +469,39 @@ class EventAdapter(private val context: Context, private val events: List<Event>
         val btnEditar: ImageView = itemView.findViewById(R.id.editEvent)
 
     }
+}
+
+class EtiquetaAdapter(
+    private val context: Context,
+    private val etiquetas: List<Etiqueta>,
+    private val onDeleteClick: (Etiqueta) -> Unit
+) : RecyclerView.Adapter<EtiquetaAdapter.EtiquetaViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EtiquetaViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tag, parent, false)
+        return EtiquetaViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: EtiquetaViewHolder, position: Int) {
+        val etiqueta = etiquetas[position]
+
+        holder.tituloTextView.text = etiqueta.titulo
+        holder.stickerTextView.text = etiqueta.sticker
+        holder.colorView.setBackgroundColor(Color.parseColor(etiqueta.color))
+        holder.prioridadTextView.text = etiqueta.prioridad.toString()
+        holder.btnEliminar.setOnClickListener {
+            onDeleteClick(etiqueta)
+        }
+    }
+
+    override fun getItemCount(): Int = etiquetas.size
+
+    class EtiquetaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tituloTextView: TextView = itemView.findViewById(R.id.tagTitle)
+        val stickerTextView: TextView = itemView.findViewById(R.id.tagSticker)
+        val colorView: View = itemView.findViewById(R.id.tagColor)
+        val prioridadTextView: TextView = itemView.findViewById(R.id.tagPrioridad)
+        val btnEliminar: ImageView = itemView.findViewById(R.id.deleteTag)
+    }
+
 }

@@ -28,13 +28,13 @@
 
 
         <!--  Color -->
-        <TextView
+        <View
             android:id="@+id/tagColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Color de la etiqueta"
-            android:textSize="14sp"
-            android:textColor="#757575" />
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="#757575"
+            android:layout_marginTop="4dp"
+            />
 
         <TextView
             android:id="@+id/tagSticker"
@@ -51,18 +51,12 @@
             android:text="Prioridad"
             android:textSize="14sp"
             android:textColor="#757575" />
-        <TextView
-            android:id="@+id/tagUrgencia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Urgencia"
-            android:textSize="14sp"
-            android:textColor="#757575" />
+
     </LinearLayout>
 
     <!-- Botón para Eliminar (Alineado a la Derecha) -->
     <ImageView
-        android:id="@+id/deleteEvent"
+        android:id="@+id/deleteTag"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_basura"
@@ -70,7 +64,7 @@
 
     <!-- Botón para Editar (Alineado a la Derecha, al lado del botón eliminar) -->
     <ImageView
-        android:id="@+id/editEvent"
+        android:id="@+id/editTag"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_editar"

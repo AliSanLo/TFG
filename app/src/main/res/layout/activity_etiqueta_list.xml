@@ -9,7 +9,7 @@
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbarEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
@@ -17,7 +17,7 @@
             />
         <!-- Contenido principal -->
         <LinearLayout
-            android:id="@+id/eventListRoot"
+            android:id="@+id/tagListRoot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -26,7 +26,7 @@
 
             <!-- Título -->
             <TextView
-                android:id="@+id/tvTituloEventos"
+                android:id="@+id/tvTituloEtiquetas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Todos mis eventos"
@@ -45,7 +45,7 @@
 
             <!-- RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewTodosEventos"
+                android:id="@+id/recyclerViewTodasEtiquetas"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"

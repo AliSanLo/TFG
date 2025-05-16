@@ -70,7 +70,6 @@ class AddEtiquetaActivity : AppCompatActivity() {
                 color = colorInput.selectedItem.toString(),
                 prioridad = prioridadInput.progress + 1,
                 sticker = stickerSeleccionado,
-                urgente = urgenteCheck.isChecked,
                 userId = FirebaseAuth.getInstance().currentUser!!.uid
             )
 
@@ -80,9 +79,11 @@ class AddEtiquetaActivity : AppCompatActivity() {
                     Toast.makeText(this, "Etiqueta guardada 🔖", Toast.LENGTH_SHORT).show()
                     finish()
                 }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Error al guardar 😢", Toast.LENGTH_SHORT).show()
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Error al guardar: ${e.message}", Toast.LENGTH_LONG).show()
+                    e.printStackTrace()
                 }
+
         }
         valorPrioridad.text = (prioridadInput.progress + 1).toString()
 

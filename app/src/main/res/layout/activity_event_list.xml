@@ -9,7 +9,7 @@
     android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarEt"
+            android:id="@+id/toolbarEv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
@@ -45,7 +45,7 @@
 
             <!-- RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewTodasEtiquetas"
+                android:id="@+id/recyclerViewTodosEventos"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
