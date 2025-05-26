@@ -56,8 +56,11 @@ implementation(libs.places)
 // The compose calendar library for Android
     implementation("com.kizitonwose.calendar:compose:2.6.2")
     implementation("com.google.android.libraries.places:places:4.1.0")  // O la última versión disponible
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
+    implementation ("com.google.firebase:firebase-auth-ktx:22.3.1")
 
-        // ...
+
+    // ...
 
         // Import the Firebase BoM
         implementation(platform("com.google.firebase:firebase-bom:33.10.0"))

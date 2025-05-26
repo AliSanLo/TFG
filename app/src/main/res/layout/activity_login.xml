@@ -109,6 +109,7 @@ android:id="@+id/main"
         android:drawablePadding="8dp"
         android:drawableLeft="@drawable/google"
         android:background="@drawable/button_border"
+        android:onClick="loginWithGoogle"
         />
 
 </LinearLayout>
