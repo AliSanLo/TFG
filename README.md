@@ -21,7 +21,7 @@
      git clone  https://github.com/AliSanLo/TFG
   2. Abrelo con Android Studio
   3. Configura Firebase
-  4. Ejecuta la aplicaion en un emulador o un dispositivo físico.
+  4. Ejecuta la aplicación en un emulador o un dispositivo físico.
  
 
 Gracias por leer y valorar mi trabajo :)
