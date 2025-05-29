@@ -36,6 +36,7 @@ import java.util.Locale
 
 class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    //variables para menjar el menu lateral y el icono de hamburguesa
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
 
@@ -44,14 +45,11 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         enableEdgeToEdge()
         setContentView(R.layout.activity_add_event)
 
-
-
-        // Inicialización del Toolbar y Drawer
+        // llamada de las funciones del Toolbar y menu
         initToolBar()
         initNavigationView()
 
-
-
+       //guardo las referencias a los elementos del layour
         val tituloEvento = findViewById<EditText>(R.id.TituloEvento)
         val etFechaStart = findViewById<EditText>(R.id.StartDate)
         val etFechaEnd = findViewById<EditText>(R.id.EndDate)
@@ -60,7 +58,7 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val notasAdic = findViewById<EditText>(R.id.Notas)
         val stickerSelector = findViewById<TextView>(R.id.stickerSelector)
 
-        //Stickers
+        //Lista de Stickers
         val stickers = listOf(
             "🎉",
             "🐱",
@@ -74,49 +72,48 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         )
 
 
-// Al hacer clic en el TextView de sticker, se abre el AlertDialog
+        // Al hacer clic en el TextView de sticker, se abre el AlertDialog
         stickerSelector.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Selecciona un Sticker")
 
             // Usamos un ArrayAdapter para crear una lista de stickers
-            builder.setItems(stickers.toTypedArray()) { _, which ->
+            //con esta funcion lambda le digo qué hacer cuando el usuario selecciona un tem de la lista
+            builder.setItems(stickers.toTypedArray()) { _, which -> //which se refiere al indicd del item que srlrcciono el usuario
+                //Cuando el usuario pulse un sticker, pilla el que esté en "esta" posicion de la listay pnlo en el textView
                 val selectedSticker = stickers[which]
                 stickerSelector.text =
                     selectedSticker  // Actualizamos el TextView con el sticker seleccionado
             }
 
+            //se crea y muestra el AlertDialog
             val dialog = builder.create()
             dialog.show()
         }
 
-        //Título de la pagina
         val titulo = findViewById<TextView>(R.id.titulo1)
-        val paint = titulo.paint
-        val width = paint.measureText(titulo.text.toString())
 
-
-
-
+        //Al pulsar el campo de fecha de inicio se abre un DatePichDialog con la fecha actual por defecto
         etFechaStart.setOnClickListener {
             val calendario = Calendar.getInstance()
 
+            //obtiene el año mes y dia actuales
             val year = calendario.get(Calendar.YEAR)
             val month = calendario.get(Calendar.MONTH)
             val day = calendario.get(Calendar.DAY_OF_MONTH)
+
+            //Creas el dialogo y guarda la fecha en el cmapo correcpondiente
             val datePicker = DatePickerDialog(
                 this,
-                android.R.style.Theme_Holo_Light_Dialog_MinWidth, // <--- Estilo clásico
+                android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                 { _, selectedYear, selectedMonth, selectedDay ->
                     val fechaElegida = "$selectedDay/${selectedMonth + 1}/$selectedYear"
                     etFechaStart.setText(fechaElegida)
+                }, year, month, day)
 
-                },
-                year, month, day
-
-            )
+            //fondo transparente
             datePicker.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
+            //lo muestra
             datePicker.show()
         }
 
@@ -132,21 +129,21 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 { _, selectedYear, selectedMonth, selectedDay ->
                     val fechaElegida = "$selectedDay/${selectedMonth + 1}/$selectedYear"
                     etFechaEnd.setText(fechaElegida)
-
-                },
-                year, month, day
-
+                }, year, month, day
             )
             datePicker.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
             datePicker.show()
         }
 
+        //TimePickerDialog con la hora actual
         editTextHoraInic.setOnClickListener {
             val calendario = Calendar.getInstance()
+
+            //hora y minuto actuales
             val hora = calendario.get(Calendar.HOUR_OF_DAY)
             val minuto = calendario.get(Calendar.MINUTE)
 
+            //Creo el time picker y se guarda la hora formateada como HH:mm
             val timePicker = TimePickerDialog(
                 this,
                 { _, hourOfDay, minute ->
@@ -173,20 +170,25 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             )
             timePicker.show()
         }
+
+        //guarda los datos en Firestore
         val btnGuardar = findViewById<Button>(R.id.GuardarEvento)
         btnGuardar.setOnClickListener {
             guardarEvento()
 
         }
 
-        //Sistema de etiquetas
+ //_____________ETIQUETAS_____________
 
+        //AutoCompleteTextView para mostrar las etiqeutas personalizadas
         val selectorEtiqueta = findViewById<MaterialAutoCompleteTextView>(R.id.selectorEtiqueta)
         val etiquetasList = mutableListOf<String>()
 
+        //obtiene instancia de Firestore y el UID del usuario autenticado
         val db = FirebaseFirestore.getInstance()
         val userId = FirebaseAuth.getInstance().currentUser?.uid
 
+        //Consulta todas las etiquetas del usuario y las carga en el campo de autocompletado
         db.collection("etiquetas")
             .whereEqualTo("userId", userId)
             .get()
@@ -201,6 +203,8 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, etiquetasList)
                 selectorEtiqueta.setAdapter(adapter)
             }
+
+            //si falla la consulta muestra un mensaje de error
             .addOnFailureListener { e ->
                 Log.e("AddEventActivity", "Error al cargar etiquetas: ", e)
                 Toast.makeText(this, "No se pudieron cargar las etiquetas", Toast.LENGTH_SHORT).show()
@@ -209,7 +213,9 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
 
     }
+//____________FIN ETIQUETAS____________
 
+//________TOOLBAR Y NAVEGACIÓN____________
     private fun initToolBar() {
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar_main)
         setSupportActionBar(toolbar)
@@ -224,9 +230,6 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         toggle.syncState()
     }
 
-
-
-    //Quitar la siguiente funcion si no hago cabecera de menu
     private fun initNavigationView() {
         val navigationView: NavigationView =
             findViewById(R.id.nav_view) //conectamos con el laytout correspondiente por el id
@@ -242,19 +245,20 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         navigationView.addHeaderView(headerView)
 
     }
-
+//________FIN TOOLBAR Y NAVEGACIÓN____________-
     fun callSignOut(view: View) {
         signOut()
     }
 
+    //cierre de sesión
     private fun signOut() {
         FirebaseAuth.getInstance().signOut()
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
         Log.d("MainActivity", "Cierre de sesión iniciado")
-
     }
 
+    //el usuario pulsa cerrar sesión en el menu
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_item_signOut -> signOut()
@@ -264,8 +268,8 @@ class AddEventActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
+    //recoge lls datos introducidos y los guarda en Firebase
     private fun guardarEvento() {
-
 
         val titulo = findViewById<EditText>(R.id.TituloEvento).text.toString().trim()
         val fechaInicio = findViewById<EditText>(R.id.StartDate).text.toString().trim()

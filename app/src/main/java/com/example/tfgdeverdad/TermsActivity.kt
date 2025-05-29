@@ -13,7 +13,7 @@ class TermsActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_terms)
 
-        val toolbarTextView: TextView = findViewById(R.id.TermsTitle)  // Asegúrate de que el ID sea correcto
-        toolbarTextView.text = getString(R.string.terms)  // Cambiar el texto dinámicamente si es necesario
+        val toolbarTextView: TextView = findViewById(R.id.TermsTitle)
+        toolbarTextView.text = getString(R.string.terms)
     }
 }

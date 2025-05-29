@@ -25,22 +25,26 @@ import java.util.Date
 import kotlin.properties.Delegates
 
 class LoginActivity : AppCompatActivity() {
+    // LoginActivity: Maneja el inicio de sesión con email/contraseña y Google Sign-In usando Firebase
 
+
+    //aquí guardo lo que se comparte entre pantallas
     companion object {
         lateinit var useremail: String
         lateinit var providerSession: String
     }
+    //acceso al sistema de autenticación Firebase
     private var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
+    //variables para recoger en los inputs
     private lateinit var email: String
     private lateinit var password: String
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var lyTerms: LinearLayout //por los terminos y condiciones
 
-    //private lateinit var mAuth: FirebaseAuth //para la autentificaciond el usuario
-
     private lateinit var googleSignInClient: GoogleSignInClient
+    //identificador de la acción. Código de solicitud para el intent de inicio de sesión de Google
     private val RC_SIGN_IN = 9001
 
 
@@ -54,11 +58,12 @@ class LoginActivity : AppCompatActivity() {
 
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
-       //mAuth.signOut() // Cierra sesión al iniciar la actividad
-        //Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show() // <-- Prueba si se ejecuta
+        // Cierra sesión al iniciar la actividad. Usado para pruebas rápidas
+       /*mAuth.signOut()
+        Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show() */
 
 
-// Configuración de inicio de sesión con Google
+// Configuración de inicio ed sesión con google
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -66,30 +71,27 @@ class LoginActivity : AppCompatActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-
-
     }
-
 
     public override fun onStart() {
         super.onStart()
-        val currentUser =
-            FirebaseAuth.getInstance().currentUser //para acceder a todos los valores relacionados con el user
+        val currentUser = FirebaseAuth.getInstance().currentUser //para acceder a todos los valores relacionados con el user
         if (currentUser != null) goHome(
             currentUser.email.toString(),
             currentUser.providerId
         ) //verifica si este usuario existe o no?
-
     }
 
+    //Reescribe el botón "atras" para cerrar la app si ya está logueadoo
     override fun onBackPressed() {
-        super.onBackPressed() //PUEDE QUE ESTA LINEA NO SIRVA Y HAYA QUE BORRARLO
+        super.onBackPressed()
         val startMain = Intent(Intent.ACTION_MAIN)
         startMain.addCategory(Intent.CATEGORY_HOME)
         startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(startMain) //cada vez q e inicie si ya esta iniciada la sesion se abrira la ventan de inicio directamente
+        startActivity(startMain)
     }
 
+    //Listener del botón login. Llama a loginuser(), donde se hace el inicio de sesion
     fun login(view: View) {
         loginUser()
     }
@@ -97,9 +99,7 @@ class LoginActivity : AppCompatActivity() {
     private fun loginUser() {
         email = etEmail.text.toString()
         password = etPassword.text.toString()
-
-
-        //inicio de sesion
+        //login real con Firebase
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->  //task es una expresion lambda y this hace que la funcion se cumpla con el inicio de sesion especificamente
                 if (task.isSuccessful) goHome(
@@ -113,10 +113,11 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    //Guarda los datos de inicio de sesión y pasa a MainActivity
     private fun goHome(
         email: String,
         provider: String
-    ) { //que receurde los datosde inicio de sesion
+    ) {
         useremail = email
         providerSession = provider
 
@@ -124,22 +125,23 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    //lanza la pantalla de registro
     fun SignIn(view: View) {
         val intent = Intent(this, SigninActivity::class.java)
         startActivity(intent)
     }
 
-
+    //lanza la pantalla de términos y condiciones
     fun goTerms(v: View) {
         val intent = Intent(this, TermsActivity::class.java)
         startActivity(intent)
     }
 
+
     fun forgotPassword(view: View) {
         resetPassword()
     }
-
-
+    //comprueba si hay un correo escrito y envía un correo de recuperación
     private fun resetPassword() {
         var e = etEmail.text.toString()
         if (!TextUtils.isEmpty(e)) { //si el campo del email no está vacío
@@ -154,11 +156,12 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-
+    //abre la pantalla de Google
     fun loginWithGoogle(view: View) {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
+    //Guardo aquí su id de inici de sesión para autenticarlo en Firebase
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -166,12 +169,11 @@ class LoginActivity : AppCompatActivity() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)!!
-                firebaseAuthWithGoogle(account.idToken!!)
+                firebaseAuthWithGoogle(account.idToken!!) //Autentica el usuario en  Firebase usando el token de Google recibido
             } catch (e: ApiException) {
                 Toast.makeText(this, "Error al iniciar sesión con Google", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)

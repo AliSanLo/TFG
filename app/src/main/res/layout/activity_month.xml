@@ -91,18 +91,19 @@
             android:layout_marginBottom="70dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/addTag"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/list_tag"
-                android:clickable="true" />
+
 
             <ImageView
                 android:id="@+id/listTag"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/etiqueta_tag"
+                android:clickable="true" />
+            <ImageView
+                android:id="@+id/addTag"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/list_tag"
                 android:clickable="true" />
         </LinearLayout>
 
